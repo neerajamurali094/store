@@ -1,0 +1,91 @@
+
+entity Store{
+	regNo String,
+	name String,
+	image ImageBlob,
+    totalRating Double,
+    location String,
+	locationName String,
+    contactNo Long,
+    openingTime Instant,
+    email String,
+    closingTime Instant,
+    info String,
+	minAmount Double,
+    maxDeliveryTime Instant
+    
+}
+
+entity Banner{
+
+    file ImageBlob
+}
+
+entity Propreitor{
+
+	name String
+}
+entity UserRating{
+    userName String,
+    rating Double,
+    ratedOn ZonedDateTime
+}
+
+entity Review{
+	userName String,
+	review String,
+    reviewedDate ZonedDateTime
+}
+entity Reply{
+	userName String,
+	reply String,
+    repliedDate ZonedDateTime
+}
+
+entity DeliveryInfo{
+	startingTime Instant,
+	endTime Instant
+}
+
+entity Type{
+	name String
+}
+
+entity StoreAddress{
+
+	customerId String,
+	pincode Long,
+	houseNoOrBuildingName String,
+	roadNameAreaOrStreet String,
+	city String,
+	state String,
+	landmark String,
+	name String,
+	phone Long,
+	alternatePhone Long
+	addressType String
+}
+
+
+relationship OneToOne{
+    Store{propreitor} to Propreitor,
+	Store{storeAddress} to StoreAddress
+}
+
+
+relationship OneToMany{
+
+    Review{reply} to Reply,
+    Store{review} to Review,
+    Store{userRating} to UserRating,
+	Store{banner} to Banner
+    
+	Store{deliveryInfo} to DeliveryInfo
+}
+
+relationship ManyToOne{
+	 DeliveryInfo{type} to Type
+}
+service all with serviceImpl
+dto all with mapstruct
+paginate all with pagination

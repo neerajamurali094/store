@@ -1,0 +1,110 @@
+{
+    "name": "Store",
+    "fields": [
+        {
+            "fieldName": "regNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "image",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "totalRating",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "location",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "locationName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contactNo",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "openingTime",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "email",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "closingTime",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "info",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "minAmount",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "maxDeliveryTime",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "propreitor",
+            "otherEntityName": "propreitor",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "store"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "storeAddress",
+            "otherEntityName": "storeAddress",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "store"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "review",
+            "otherEntityName": "review",
+            "otherEntityRelationshipName": "store"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "userRating",
+            "otherEntityName": "userRating",
+            "otherEntityRelationshipName": "store"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "banner",
+            "otherEntityName": "banner",
+            "otherEntityRelationshipName": "store"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "deliveryInfo",
+            "otherEntityName": "deliveryInfo",
+            "otherEntityRelationshipName": "store"
+        }
+    ],
+    "changelogDate": "20190715144920",
+    "entityTableName": "store",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "store",
+    "applications": "*",
+    "microserviceName": "store"
+}

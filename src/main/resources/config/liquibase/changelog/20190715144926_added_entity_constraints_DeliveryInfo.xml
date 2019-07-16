@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity DeliveryInfo.
+    -->
+    <changeSet id="20190715144926-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="store_id"
+                                 baseTableName="delivery_info"
+                                 constraintName="fk_delivery_info_store_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="store"/>
+
+        <addForeignKeyConstraint baseColumnNames="type_id"
+                                 baseTableName="delivery_info"
+                                 constraintName="fk_delivery_info_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="type"/>
+
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,38 @@
+{
+    "name": "DeliveryInfo",
+    "fields": [
+        {
+            "fieldName": "startingTime",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "endTime",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "store",
+            "otherEntityName": "store",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "type",
+            "otherEntityName": "type",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "deliveryInfo"
+        }
+    ],
+    "changelogDate": "20190715144926",
+    "entityTableName": "delivery_info",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "store",
+    "applications": "*",
+    "microserviceName": "store"
+}

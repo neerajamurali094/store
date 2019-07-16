@@ -1,0 +1,41 @@
+{
+    "name": "Review",
+    "fields": [
+        {
+            "fieldName": "userName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "review",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "reviewedDate",
+            "fieldType": "ZonedDateTime"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "store",
+            "otherEntityName": "store",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "reply",
+            "otherEntityName": "reply",
+            "otherEntityRelationshipName": "review"
+        }
+    ],
+    "changelogDate": "20190715144924",
+    "entityTableName": "review",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "store",
+    "applications": "*",
+    "microserviceName": "store"
+}

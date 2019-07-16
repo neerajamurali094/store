@@ -78,8 +78,7 @@ relationship OneToMany{
     Review{reply} to Reply,
     Store{review} to Review,
     Store{userRating} to UserRating,
-	Store{banner} to Banner
-    
+	Store{banner} to Banner,
 	Store{deliveryInfo} to DeliveryInfo
 }
 

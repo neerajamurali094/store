@@ -53,7 +53,11 @@ public class UserRatingResource {
         if (userRatingDTO.getId() != null) {
             throw new BadRequestAlertException("A new userRating cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        UserRatingDTO result = userRatingService.save(userRatingDTO);
+        UserRatingDTO result1 = userRatingService.save(userRatingDTO);
+        if (result1.getId() != null) {
+            throw new BadRequestAlertException("A new userRating cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        UserRatingDTO result = userRatingService.save(result1);
         return ResponseEntity.created(new URI("/api/user-ratings/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

@@ -1,12 +1,16 @@
 package com.diviso.graeshoppe.web.rest;
+import com.diviso.graeshoppe.domain.UserRating;
 import com.diviso.graeshoppe.service.UserRatingService;
 import com.diviso.graeshoppe.web.rest.errors.BadRequestAlertException;
 import com.diviso.graeshoppe.web.rest.util.HeaderUtil;
 import com.diviso.graeshoppe.web.rest.util.PaginationUtil;
 import com.diviso.graeshoppe.service.dto.UserRatingDTO;
+import com.diviso.graeshoppe.service.mapper.UserRatingMapper;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -35,6 +39,9 @@ public class UserRatingResource {
     private static final String ENTITY_NAME = "storeUserRating";
 
     private final UserRatingService userRatingService;
+    
+	@Autowired
+	UserRatingMapper userRatingMapper;
 
     public UserRatingResource(UserRatingService userRatingService) {
         this.userRatingService = userRatingService;
@@ -140,4 +147,14 @@ public class UserRatingResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @PostMapping("/user-rating/modelToDto")
+	public ResponseEntity<UserRatingDTO> modelToDto(@RequestBody UserRating userRating) {
+		log.debug("REST request to convert to DTO");
+		return ResponseEntity.ok().body(userRatingMapper.toDto(userRating));
+	}
+
+	@GetMapping("/count/{rating}")
+	public int getCount(@PathVariable Double rating) {
+		return userRatingService.getCount(rating);
+	}
 }

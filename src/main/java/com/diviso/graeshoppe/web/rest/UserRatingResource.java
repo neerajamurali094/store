@@ -54,7 +54,7 @@ public class UserRatingResource {
             throw new BadRequestAlertException("A new userRating cannot already have an ID", ENTITY_NAME, "idexists");
         }
         UserRatingDTO result1 = userRatingService.save(userRatingDTO);
-        if (userRatingDTO.getId() == null) {
+        if (result1.getId() == null) {
             throw new BadRequestAlertException("A new userRating cannot already have an ID", ENTITY_NAME, "idexists");
         }
         UserRatingDTO result = userRatingService.save(result1);

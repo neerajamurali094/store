@@ -78,6 +78,8 @@ public class Store implements Serializable {
     private StoreAddress storeAddress;
 
     @OneToMany(mappedBy = "store")
+    private Set<StoreType> storeTypes = new HashSet<>();
+    @OneToMany(mappedBy = "store")
     private Set<Review> reviews = new HashSet<>();
     @OneToMany(mappedBy = "store")
     private Set<UserRating> userRatings = new HashSet<>();
@@ -300,6 +302,31 @@ public class Store implements Serializable {
 
     public void setStoreAddress(StoreAddress storeAddress) {
         this.storeAddress = storeAddress;
+    }
+
+    public Set<StoreType> getStoreTypes() {
+        return storeTypes;
+    }
+
+    public Store storeTypes(Set<StoreType> storeTypes) {
+        this.storeTypes = storeTypes;
+        return this;
+    }
+
+    public Store addStoreType(StoreType storeType) {
+        this.storeTypes.add(storeType);
+        storeType.setStore(this);
+        return this;
+    }
+
+    public Store removeStoreType(StoreType storeType) {
+        this.storeTypes.remove(storeType);
+        storeType.setStore(null);
+        return this;
+    }
+
+    public void setStoreTypes(Set<StoreType> storeTypes) {
+        this.storeTypes = storeTypes;
     }
 
     public Set<Review> getReviews() {

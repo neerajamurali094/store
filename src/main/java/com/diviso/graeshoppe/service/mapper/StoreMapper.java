@@ -17,6 +17,7 @@ public interface StoreMapper extends EntityMapper<StoreDTO, Store> {
 
     @Mapping(source = "propreitorId", target = "propreitor")
     @Mapping(source = "storeAddressId", target = "storeAddress")
+    @Mapping(target = "storeTypes", ignore = true)
     @Mapping(target = "reviews", ignore = true)
     @Mapping(target = "userRatings", ignore = true)
     @Mapping(target = "banners", ignore = true)

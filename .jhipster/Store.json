@@ -74,6 +74,12 @@
         },
         {
             "relationshipType": "one-to-many",
+            "relationshipName": "storeType",
+            "otherEntityName": "storeType",
+            "otherEntityRelationshipName": "store"
+        },
+        {
+            "relationshipType": "one-to-many",
             "relationshipName": "review",
             "otherEntityName": "review",
             "otherEntityRelationshipName": "store"

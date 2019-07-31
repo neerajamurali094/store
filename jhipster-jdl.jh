@@ -51,6 +51,9 @@ entity Type{
 	name String
 }
 
+entity StoreType{
+	name String
+}
 entity StoreAddress{
 
 	customerId String,
@@ -75,6 +78,7 @@ relationship OneToOne{
 
 relationship OneToMany{
 
+    Store{storeType} to StoreType,
     Review{reply} to Reply,
     Store{review} to Review,
     Store{userRating} to UserRating,

@@ -1,5 +1,7 @@
 package com.diviso.graeshoppe.web.rest;
+
 import com.diviso.graeshoppe.domain.Store;
+import com.diviso.graeshoppe.repository.StoreRepository;
 import com.diviso.graeshoppe.repository.search.StoreSearchRepository;
 import com.diviso.graeshoppe.service.StoreService;
 import com.diviso.graeshoppe.web.rest.errors.BadRequestAlertException;
@@ -34,158 +36,180 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class StoreResource {
 
 	@Autowired
-	StoreSearchRepository  storeSearchRepository;
-	
-    private final Logger log = LoggerFactory.getLogger(StoreResource.class);
+	StoreSearchRepository storeSearchRepository;
 
-    private static final String ENTITY_NAME = "storeStore";
+	@Autowired
+	StoreRepository storeRepo;
 
-    private final StoreService storeService;
+	private final Logger log = LoggerFactory.getLogger(StoreResource.class);
 
-    public StoreResource(StoreService storeService) {
-        this.storeService = storeService;
-    }
+	private static final String ENTITY_NAME = "storeStore";
 
-    /**
-     * POST  /stores : Create a new store.
-     *
-     * @param storeDTO the storeDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new storeDTO, or with status 400 (Bad Request) if the store has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @PostMapping("/stores")
-    public ResponseEntity<StoreDTO> createStore(@RequestBody StoreDTO storeDTO) throws URISyntaxException {
-        log.debug("REST request to save Store : {}", storeDTO);
-        storeDTO.setTotalRating(0.0);
-        if (storeDTO.getId() != null) {
-            throw new BadRequestAlertException("A new store cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        StoreDTO result = storeService.save(storeDTO);
-        return ResponseEntity.created(new URI("/api/stores/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
-    }
-    
-    @PostMapping("/stores-denormalized")
-    public ResponseEntity<Store> createDeNormalizedStore(@RequestBody Store store) throws URISyntaxException {
-        log.debug("REST request to save Store : {}", store);
-        if (store.getId() != null) {
-            throw new BadRequestAlertException("A new store cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        Store result = storeService.saveStore(store);
-        return ResponseEntity.created(new URI("/api/stores-denormalized/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
-    }
+	private final StoreService storeService;
 
-    /**
-     * PUT  /stores : Updates an existing store.
-     *
-     * @param storeDTO the storeDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated storeDTO,
-     * or with status 400 (Bad Request) if the storeDTO is not valid,
-     * or with status 500 (Internal Server Error) if the storeDTO couldn't be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @PutMapping("/stores")
-    public ResponseEntity<StoreDTO> updateStore(@RequestBody StoreDTO storeDTO) throws URISyntaxException {
-        log.debug("REST request to update Store : {}", storeDTO);
-        if (storeDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        StoreDTO result = storeService.save(storeDTO);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, storeDTO.getId().toString()))
-            .body(result);
-    }
+	public StoreResource(StoreService storeService) {
+		this.storeService = storeService;
+	}
 
-    
-    @PutMapping("/stores-denormalized")
-    public ResponseEntity<Store> updateStoreDeNormalized(@RequestBody Store store) throws URISyntaxException {
-        log.debug("REST request to update StoreDenormalized : {}", store);
-        if (store.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        Store result = storeService.saveStore(store);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, store.getId().toString()))
-            .body(result);
-    }
+	/**
+	 * POST /stores : Create a new store.
+	 *
+	 * @param storeDTO
+	 *            the storeDTO to create
+	 * @return the ResponseEntity with status 201 (Created) and with body the
+	 *         new storeDTO, or with status 400 (Bad Request) if the store has
+	 *         already an ID
+	 * @throws URISyntaxException
+	 *             if the Location URI syntax is incorrect
+	 */
+	@PostMapping("/stores")
+	public ResponseEntity<StoreDTO> createStore(@RequestBody StoreDTO storeDTO) throws URISyntaxException {
+		log.debug("REST request to save Store : {}", storeDTO);
+		storeDTO.setTotalRating(0.0);
+		
+		if (storeDTO.getId() != null) {
+			throw new BadRequestAlertException("A new store cannot already have an ID", ENTITY_NAME, "idexists");
+		}
+		List<Store> stores = storeRepo.findAll();
+		
+		stores.forEach(s -> {
+			if (storeDTO.getRegNo().equals(s.getRegNo())) {
 
-    
-    /**
-     * GET  /stores : get all the stores.
-     *
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of stores in body
-     */
-    @GetMapping("/stores")
-    public ResponseEntity<List<StoreDTO>> getAllStores(Pageable pageable) {
-        log.debug("REST request to get a page of Stores");
-        Page<StoreDTO> page = storeService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/stores");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
+				throw new BadRequestAlertException("Already have a customer with the same name", ENTITY_NAME,
+						"nameexists");
+			}
 
-    /**
-     * GET  /stores/:id : get the "id" store.
-     *
-     * @param id the id of the storeDTO to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the storeDTO, or with status 404 (Not Found)
-     */
-    @GetMapping("/stores/{id}")
-    public ResponseEntity<StoreDTO> getStore(@PathVariable Long id) {
-        log.debug("REST request to get Store : {}", id);
-        Optional<StoreDTO> storeDTO = storeService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(storeDTO);
-    }
+		});
+		StoreDTO result = storeService.save(storeDTO);
+		return ResponseEntity.created(new URI("/api/stores/" + result.getId()))
+				.headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString())).body(result);
+	}
 
-    /**
-     * DELETE  /stores/:id : delete the "id" store.
-     *
-     * @param id the id of the storeDTO to delete
-     * @return the ResponseEntity with status 200 (OK)
-     */
-    @DeleteMapping("/stores/{id}")
-    public ResponseEntity<Void> deleteStore(@PathVariable Long id) {
-        log.debug("REST request to delete Store : {}", id);
-        storeService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
-    }
+	@PostMapping("/stores-denormalized")
+	public ResponseEntity<Store> createDeNormalizedStore(@RequestBody Store store) throws URISyntaxException {
+		log.debug("REST request to save Store : {}", store);
+		if (store.getId() != null) {
+			throw new BadRequestAlertException("A new store cannot already have an ID", ENTITY_NAME, "idexists");
+		}
+		Store result = storeService.saveStore(store);
+		return ResponseEntity.created(new URI("/api/stores-denormalized/" + result.getId()))
+				.headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString())).body(result);
+	}
 
-    /**
-     * SEARCH  /_search/stores?query=:query : search for the store corresponding
-     * to the query.
-     *
-     * @param query the query of the store search
-     * @param pageable the pagination information
-     * @return the result of the search
-     */
-    @GetMapping("/_search/stores")
-    public ResponseEntity<List<StoreDTO>> searchStores(@RequestParam String query, Pageable pageable) {
-        log.debug("REST request to search for a page of Stores for query {}", query);
-        Page<StoreDTO> page = storeService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/stores");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-// for testing purpose DeleteMe
-    @PostMapping("/createStores")
-    public void create(){
-    	Store t1 = new Store();
-    	t1.setId(367l);
-    	t1.setName("grilchicken");
-    	storeSearchRepository.save(t1);
-    	
-    	Store t2 = new Store();
-    	t2.setId(368l);
-    	t2.setName("grilgchi[cken");
-    	storeSearchRepository.save(t2);
-    	
-    	
-    	Store t3 = new Store();
-    	t3.setId(367l);
-    	t3.setName("rrun'neschicken");
-    	storeSearchRepository.save(t3);
-}
-    
+	/**
+	 * PUT /stores : Updates an existing store.
+	 *
+	 * @param storeDTO
+	 *            the storeDTO to update
+	 * @return the ResponseEntity with status 200 (OK) and with body the updated
+	 *         storeDTO, or with status 400 (Bad Request) if the storeDTO is not
+	 *         valid, or with status 500 (Internal Server Error) if the storeDTO
+	 *         couldn't be updated
+	 * @throws URISyntaxException
+	 *             if the Location URI syntax is incorrect
+	 */
+	@PutMapping("/stores")
+	public ResponseEntity<StoreDTO> updateStore(@RequestBody StoreDTO storeDTO) throws URISyntaxException {
+		log.debug("REST request to update Store : {}", storeDTO);
+		if (storeDTO.getId() == null) {
+			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+		}
+		StoreDTO result = storeService.save(storeDTO);
+		return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, storeDTO.getId().toString()))
+				.body(result);
+	}
+
+	@PutMapping("/stores-denormalized")
+	public ResponseEntity<Store> updateStoreDeNormalized(@RequestBody Store store) throws URISyntaxException {
+		log.debug("REST request to update StoreDenormalized : {}", store);
+		if (store.getId() == null) {
+			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+		}
+		Store result = storeService.saveStore(store);
+		return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, store.getId().toString()))
+				.body(result);
+	}
+
+	/**
+	 * GET /stores : get all the stores.
+	 *
+	 * @param pageable
+	 *            the pagination information
+	 * @return the ResponseEntity with status 200 (OK) and the list of stores in
+	 *         body
+	 */
+	@GetMapping("/stores")
+	public ResponseEntity<List<StoreDTO>> getAllStores(Pageable pageable) {
+		log.debug("REST request to get a page of Stores");
+		Page<StoreDTO> page = storeService.findAll(pageable);
+		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/stores");
+		return ResponseEntity.ok().headers(headers).body(page.getContent());
+	}
+
+	/**
+	 * GET /stores/:id : get the "id" store.
+	 *
+	 * @param id
+	 *            the id of the storeDTO to retrieve
+	 * @return the ResponseEntity with status 200 (OK) and with body the
+	 *         storeDTO, or with status 404 (Not Found)
+	 */
+	@GetMapping("/stores/{id}")
+	public ResponseEntity<StoreDTO> getStore(@PathVariable Long id) {
+		log.debug("REST request to get Store : {}", id);
+		Optional<StoreDTO> storeDTO = storeService.findOne(id);
+		return ResponseUtil.wrapOrNotFound(storeDTO);
+	}
+
+	/**
+	 * DELETE /stores/:id : delete the "id" store.
+	 *
+	 * @param id
+	 *            the id of the storeDTO to delete
+	 * @return the ResponseEntity with status 200 (OK)
+	 */
+	@DeleteMapping("/stores/{id}")
+	public ResponseEntity<Void> deleteStore(@PathVariable Long id) {
+		log.debug("REST request to delete Store : {}", id);
+		storeService.delete(id);
+		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+	}
+
+	/**
+	 * SEARCH /_search/stores?query=:query : search for the store corresponding
+	 * to the query.
+	 *
+	 * @param query
+	 *            the query of the store search
+	 * @param pageable
+	 *            the pagination information
+	 * @return the result of the search
+	 */
+	@GetMapping("/_search/stores")
+	public ResponseEntity<List<StoreDTO>> searchStores(@RequestParam String query, Pageable pageable) {
+		log.debug("REST request to search for a page of Stores for query {}", query);
+		Page<StoreDTO> page = storeService.search(query, pageable);
+		HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/stores");
+		return ResponseEntity.ok().headers(headers).body(page.getContent());
+	}
+
+	// for testing purpose DeleteMe
+	@PostMapping("/createStores")
+	public void create() {
+		Store t1 = new Store();
+		t1.setId(367l);
+		t1.setName("grilchicken");
+		storeSearchRepository.save(t1);
+
+		Store t2 = new Store();
+		t2.setId(368l);
+		t2.setName("grilgchi[cken");
+		storeSearchRepository.save(t2);
+
+		Store t3 = new Store();
+		t3.setId(367l);
+		t3.setName("rrun'neschicken");
+		storeSearchRepository.save(t3);
+	}
+
 }

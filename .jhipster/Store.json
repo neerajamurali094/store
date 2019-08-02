@@ -73,6 +73,14 @@
             "otherEntityRelationshipName": "store"
         },
         {
+            "relationshipType": "one-to-one",
+            "relationshipName": "storeSettings",
+            "otherEntityName": "storeSettings",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "store"
+        },
+        {
             "relationshipType": "one-to-many",
             "relationshipName": "storeType",
             "otherEntityName": "storeType",

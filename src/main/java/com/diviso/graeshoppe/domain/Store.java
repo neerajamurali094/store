@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.GeoPointField;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
@@ -76,6 +78,10 @@ public class Store implements Serializable {
     @OneToOne
     @JoinColumn(unique = true)
     private StoreAddress storeAddress;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private StoreSettings storeSettings;
 
     @OneToMany(mappedBy = "store")
     private Set<StoreType> storeTypes = new HashSet<>();
@@ -302,6 +308,19 @@ public class Store implements Serializable {
 
     public void setStoreAddress(StoreAddress storeAddress) {
         this.storeAddress = storeAddress;
+    }
+
+    public StoreSettings getStoreSettings() {
+        return storeSettings;
+    }
+
+    public Store storeSettings(StoreSettings storeSettings) {
+        this.storeSettings = storeSettings;
+        return this;
+    }
+
+    public void setStoreSettings(StoreSettings storeSettings) {
+        this.storeSettings = storeSettings;
     }
 
     public Set<StoreType> getStoreTypes() {

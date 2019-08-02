@@ -1,0 +1,28 @@
+{
+    "name": "StoreSettings",
+    "fields": [
+        {
+            "fieldName": "deliveryCharge",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "serviceCharge",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "orderAcceptType",
+            "fieldType": "Double"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190801091328",
+    "entityTableName": "store_settings",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "store",
+    "applications": "*",
+    "microserviceName": "store"
+}

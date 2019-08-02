@@ -8,15 +8,17 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Store and its DTO StoreDTO.
  */
-@Mapper(componentModel = "spring", uses = {PropreitorMapper.class, StoreAddressMapper.class})
+@Mapper(componentModel = "spring", uses = {PropreitorMapper.class, StoreAddressMapper.class, StoreSettingsMapper.class})
 public interface StoreMapper extends EntityMapper<StoreDTO, Store> {
 
     @Mapping(source = "propreitor.id", target = "propreitorId")
     @Mapping(source = "storeAddress.id", target = "storeAddressId")
+    @Mapping(source = "storeSettings.id", target = "storeSettingsId")
     StoreDTO toDto(Store store);
 
     @Mapping(source = "propreitorId", target = "propreitor")
     @Mapping(source = "storeAddressId", target = "storeAddress")
+    @Mapping(source = "storeSettingsId", target = "storeSettings")
     @Mapping(target = "storeTypes", ignore = true)
     @Mapping(target = "reviews", ignore = true)
     @Mapping(target = "userRatings", ignore = true)

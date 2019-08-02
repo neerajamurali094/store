@@ -13,7 +13,12 @@ entity Store{
     info String,
 	minAmount Double,
     maxDeliveryTime Instant
-    
+}
+
+entity StoreSettings{
+	deliveryCharge Double,
+	serviceCharge Double,
+	orderAcceptType Double
 }
 
 entity Banner{
@@ -72,7 +77,8 @@ entity StoreAddress{
 
 relationship OneToOne{
     Store{propreitor} to Propreitor,
-	Store{storeAddress} to StoreAddress
+	Store{storeAddress} to StoreAddress,
+	Store{storeSettings} to StoreSettings
 }
 
 

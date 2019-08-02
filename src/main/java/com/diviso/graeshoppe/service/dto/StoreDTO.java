@@ -44,6 +44,8 @@ public class StoreDTO implements Serializable {
 
     private Long storeAddressId;
 
+    private Long storeSettingsId;
+
     public Long getId() {
         return id;
     }
@@ -180,6 +182,14 @@ public class StoreDTO implements Serializable {
         this.storeAddressId = storeAddressId;
     }
 
+    public Long getStoreSettingsId() {
+        return storeSettingsId;
+    }
+
+    public void setStoreSettingsId(Long storeSettingsId) {
+        this.storeSettingsId = storeSettingsId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -220,6 +230,7 @@ public class StoreDTO implements Serializable {
             ", maxDeliveryTime='" + getMaxDeliveryTime() + "'" +
             ", propreitor=" + getPropreitorId() +
             ", storeAddress=" + getStoreAddressId() +
+            ", storeSettings=" + getStoreSettingsId() +
             "}";
     }
 }

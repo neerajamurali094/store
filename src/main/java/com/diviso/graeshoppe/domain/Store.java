@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+import org.springframework.data.elasticsearch.annotations.GeoPointField;
 
 /**
  * A Store.
@@ -44,6 +45,7 @@ public class Store implements Serializable {
     @Column(name = "total_rating")
     private Double totalRating;
 
+    @GeoPointField
     @Column(name = "location")
     private String location;
 

@@ -1,12 +1,18 @@
 package com.diviso.graeshoppe.web.rest;
+import com.diviso.graeshoppe.domain.DeliveryInfo;
+import com.diviso.graeshoppe.domain.Type;
 import com.diviso.graeshoppe.service.TypeService;
 import com.diviso.graeshoppe.web.rest.errors.BadRequestAlertException;
 import com.diviso.graeshoppe.web.rest.util.HeaderUtil;
 import com.diviso.graeshoppe.web.rest.util.PaginationUtil;
+
 import com.diviso.graeshoppe.service.dto.TypeDTO;
+import com.diviso.graeshoppe.service.mapper.TypeMapper;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -35,6 +41,8 @@ public class TypeResource {
     private static final String ENTITY_NAME = "storeType";
 
     private final TypeService typeService;
+    @Autowired
+    private TypeMapper typeMapper;
 
     public TypeResource(TypeService typeService) {
         this.typeService = typeService;
@@ -136,4 +144,13 @@ public class TypeResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @PostMapping("/type/toDto")
+	public ResponseEntity<List<TypeDTO>> listToDto(@RequestBody List<Type> types) {
+		log.debug("REST request to convert to DTO");
+		List<TypeDTO> dtos = new ArrayList<>();
+		types.forEach(a -> {
+			dtos.add(typeMapper.toDto(a));
+		});
+		return ResponseEntity.ok().body(dtos);
+	}
 }

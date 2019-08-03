@@ -1,12 +1,18 @@
 package com.diviso.graeshoppe.web.rest;
+import com.diviso.graeshoppe.domain.Banner;
+import com.diviso.graeshoppe.domain.StoreType;
 import com.diviso.graeshoppe.service.BannerService;
 import com.diviso.graeshoppe.web.rest.errors.BadRequestAlertException;
 import com.diviso.graeshoppe.web.rest.util.HeaderUtil;
 import com.diviso.graeshoppe.web.rest.util.PaginationUtil;
 import com.diviso.graeshoppe.service.dto.BannerDTO;
+import com.diviso.graeshoppe.service.dto.StoreTypeDTO;
+import com.diviso.graeshoppe.service.mapper.BannerMapper;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -35,6 +41,9 @@ public class BannerResource {
     private static final String ENTITY_NAME = "storeBanner";
 
     private final BannerService bannerService;
+    
+    @Autowired
+    private BannerMapper bannerMapper;
 
     public BannerResource(BannerService bannerService) {
         this.bannerService = bannerService;
@@ -136,4 +145,14 @@ public class BannerResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    
+    @PostMapping("/banners/toDto")
+	public ResponseEntity<List<BannerDTO>> listToDto(@RequestBody List<Banner> banners) {
+		log.debug("REST request to convert to DTO");
+		List<BannerDTO> dtos = new ArrayList<>();
+		banners.forEach(a -> {
+			dtos.add(bannerMapper.toDto(a));
+		});
+		return ResponseEntity.ok().body(dtos);
+	}
 }

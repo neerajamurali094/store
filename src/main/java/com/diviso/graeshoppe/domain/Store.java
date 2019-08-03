@@ -7,6 +7,8 @@ import javax.persistence.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.GeoPointField;
+import org.springframework.data.elasticsearch.annotations.Mapping;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -21,6 +23,8 @@ import org.springframework.data.elasticsearch.annotations.GeoPointField;
 @Entity
 @Table(name = "store")
 @Document(indexName = "store")
+@Setting(settingPath = "settings/storesettings.json")
+@Mapping(mappingPath = "mappings/storemappings.json") 
 public class Store implements Serializable {
 
     private static final long serialVersionUID = 1L;

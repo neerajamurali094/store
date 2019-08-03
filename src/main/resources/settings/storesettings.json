@@ -1,0 +1,31 @@
+{"index":{
+  
+    "analysis": {
+    
+    
+      "analyzer": {
+        "my_analyzer": {
+          "tokenizer": "my_tokenizer",
+            "filter": [
+            "lowercase"       
+          ]
+          
+        }
+      },
+      "tokenizer": {
+        "my_tokenizer": {
+          "type": "ngram",
+          "min_gram": 2,
+          "max_gram": 10,
+          "token_chars": [
+            "letter",
+            "digit",
+             "punctuation",
+            "symbol"
+          ]
+        }
+      }
+    }
+  
+ }
+}

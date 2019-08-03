@@ -1,0 +1,11 @@
+{
+    "teststore": {
+        "properties": {
+            "name": {
+                "type": "text",
+                "analyzer": "my_analyzer",
+  				"search_analyzer": "simple"
+            }
+        }
+    }
+}

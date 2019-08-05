@@ -1,9 +1,9 @@
 {
-    "teststore": {
+    "store": {
         "properties": {
             "name": {
                 "type": "text",
-                "analyzer": "my_analyzer",
+                "analyzer": "index_analyzer",
   				"search_analyzer": "simple"
             }
         }

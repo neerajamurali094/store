@@ -50,6 +50,12 @@ public class StoreTypeServiceImpl implements StoreTypeService {
         log.debug("Request to save StoreType : {}", storeTypeDTO);
         StoreType storeType = storeTypeMapper.toEntity(storeTypeDTO);
         storeType = storeTypeRepository.save(storeType);
+        StoreTypeDTO result1 = storeTypeMapper.toDto(storeType);
+        storeTypeSearchRepository.save(storeType);
+        
+
+        storeType = storeTypeMapper.toEntity(result1);
+        storeType = storeTypeRepository.save(storeType);
         StoreTypeDTO result = storeTypeMapper.toDto(storeType);
         storeTypeSearchRepository.save(storeType);
         return result;

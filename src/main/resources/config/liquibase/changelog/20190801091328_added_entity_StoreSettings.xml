@@ -30,7 +30,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="order_accept_type" type="double">
+            <column name="order_accept_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 

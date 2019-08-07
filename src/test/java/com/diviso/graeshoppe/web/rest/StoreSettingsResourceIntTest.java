@@ -55,8 +55,8 @@ public class StoreSettingsResourceIntTest {
     private static final Double DEFAULT_SERVICE_CHARGE = 1D;
     private static final Double UPDATED_SERVICE_CHARGE = 2D;
 
-    private static final Double DEFAULT_ORDER_ACCEPT_TYPE = 1D;
-    private static final Double UPDATED_ORDER_ACCEPT_TYPE = 2D;
+    private static final String DEFAULT_ORDER_ACCEPT_TYPE = "AAAAAAAAAA";
+    private static final String UPDATED_ORDER_ACCEPT_TYPE = "BBBBBBBBBB";
 
     @Autowired
     private StoreSettingsRepository storeSettingsRepository;
@@ -185,7 +185,7 @@ public class StoreSettingsResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(storeSettings.getId().intValue())))
             .andExpect(jsonPath("$.[*].deliveryCharge").value(hasItem(DEFAULT_DELIVERY_CHARGE.doubleValue())))
             .andExpect(jsonPath("$.[*].serviceCharge").value(hasItem(DEFAULT_SERVICE_CHARGE.doubleValue())))
-            .andExpect(jsonPath("$.[*].orderAcceptType").value(hasItem(DEFAULT_ORDER_ACCEPT_TYPE.doubleValue())));
+            .andExpect(jsonPath("$.[*].orderAcceptType").value(hasItem(DEFAULT_ORDER_ACCEPT_TYPE.toString())));
     }
     
     @Test
@@ -201,7 +201,7 @@ public class StoreSettingsResourceIntTest {
             .andExpect(jsonPath("$.id").value(storeSettings.getId().intValue()))
             .andExpect(jsonPath("$.deliveryCharge").value(DEFAULT_DELIVERY_CHARGE.doubleValue()))
             .andExpect(jsonPath("$.serviceCharge").value(DEFAULT_SERVICE_CHARGE.doubleValue()))
-            .andExpect(jsonPath("$.orderAcceptType").value(DEFAULT_ORDER_ACCEPT_TYPE.doubleValue()));
+            .andExpect(jsonPath("$.orderAcceptType").value(DEFAULT_ORDER_ACCEPT_TYPE.toString()));
     }
 
     @Test
@@ -304,7 +304,7 @@ public class StoreSettingsResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(storeSettings.getId().intValue())))
             .andExpect(jsonPath("$.[*].deliveryCharge").value(hasItem(DEFAULT_DELIVERY_CHARGE.doubleValue())))
             .andExpect(jsonPath("$.[*].serviceCharge").value(hasItem(DEFAULT_SERVICE_CHARGE.doubleValue())))
-            .andExpect(jsonPath("$.[*].orderAcceptType").value(hasItem(DEFAULT_ORDER_ACCEPT_TYPE.doubleValue())));
+            .andExpect(jsonPath("$.[*].orderAcceptType").value(hasItem(DEFAULT_ORDER_ACCEPT_TYPE)));
     }
 
     @Test

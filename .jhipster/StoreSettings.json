@@ -11,7 +11,7 @@
         },
         {
             "fieldName": "orderAcceptType",
-            "fieldType": "Double"
+            "fieldType": "String"
         }
     ],
     "relationships": [],

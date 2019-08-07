@@ -29,7 +29,7 @@ public class StoreSettings implements Serializable {
     private Double serviceCharge;
 
     @Column(name = "order_accept_type")
-    private Double orderAcceptType;
+    private String orderAcceptType;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -66,16 +66,16 @@ public class StoreSettings implements Serializable {
         this.serviceCharge = serviceCharge;
     }
 
-    public Double getOrderAcceptType() {
+    public String getOrderAcceptType() {
         return orderAcceptType;
     }
 
-    public StoreSettings orderAcceptType(Double orderAcceptType) {
+    public StoreSettings orderAcceptType(String orderAcceptType) {
         this.orderAcceptType = orderAcceptType;
         return this;
     }
 
-    public void setOrderAcceptType(Double orderAcceptType) {
+    public void setOrderAcceptType(String orderAcceptType) {
         this.orderAcceptType = orderAcceptType;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
@@ -106,7 +106,7 @@ public class StoreSettings implements Serializable {
             "id=" + getId() +
             ", deliveryCharge=" + getDeliveryCharge() +
             ", serviceCharge=" + getServiceCharge() +
-            ", orderAcceptType=" + getOrderAcceptType() +
+            ", orderAcceptType='" + getOrderAcceptType() + "'" +
             "}";
     }
 }

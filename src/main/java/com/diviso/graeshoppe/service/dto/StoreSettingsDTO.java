@@ -13,7 +13,7 @@ public class StoreSettingsDTO implements Serializable {
 
     private Double serviceCharge;
 
-    private Double orderAcceptType;
+    private String orderAcceptType;
 
 
     public Long getId() {
@@ -40,11 +40,11 @@ public class StoreSettingsDTO implements Serializable {
         this.serviceCharge = serviceCharge;
     }
 
-    public Double getOrderAcceptType() {
+    public String getOrderAcceptType() {
         return orderAcceptType;
     }
 
-    public void setOrderAcceptType(Double orderAcceptType) {
+    public void setOrderAcceptType(String orderAcceptType) {
         this.orderAcceptType = orderAcceptType;
     }
 
@@ -75,7 +75,7 @@ public class StoreSettingsDTO implements Serializable {
             "id=" + getId() +
             ", deliveryCharge=" + getDeliveryCharge() +
             ", serviceCharge=" + getServiceCharge() +
-            ", orderAcceptType=" + getOrderAcceptType() +
+            ", orderAcceptType='" + getOrderAcceptType() + "'" +
             "}";
     }
 }

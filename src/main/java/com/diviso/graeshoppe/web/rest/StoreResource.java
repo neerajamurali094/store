@@ -1,13 +1,17 @@
 package com.diviso.graeshoppe.web.rest;
 
 import com.diviso.graeshoppe.domain.Store;
+import com.diviso.graeshoppe.domain.StoreSettings;
 import com.diviso.graeshoppe.repository.StoreRepository;
 import com.diviso.graeshoppe.repository.search.StoreSearchRepository;
 import com.diviso.graeshoppe.service.StoreService;
+import com.diviso.graeshoppe.service.StoreSettingsService;
 import com.diviso.graeshoppe.web.rest.errors.BadRequestAlertException;
 import com.diviso.graeshoppe.web.rest.util.HeaderUtil;
 import com.diviso.graeshoppe.web.rest.util.PaginationUtil;
 import com.diviso.graeshoppe.service.dto.StoreDTO;
+import com.diviso.graeshoppe.service.dto.StoreSettingsDTO;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +51,9 @@ public class StoreResource {
 
 	private final StoreService storeService;
 
+	@Autowired
+	private StoreSettingsService storeSettingsService;
+
 	public StoreResource(StoreService storeService) {
 		this.storeService = storeService;
 	}
@@ -64,14 +71,16 @@ public class StoreResource {
 	 */
 	@PostMapping("/stores")
 	public ResponseEntity<StoreDTO> createStore(@RequestBody StoreDTO storeDTO) throws URISyntaxException {
-		log.debug("REST request to save Store : {}", storeDTO);
-		storeDTO.setTotalRating(0.0);
 		
+		log.debug("REST request to save Store : {}", storeDTO);
+		
+		storeDTO.setTotalRating(0.0);
+
 		if (storeDTO.getId() != null) {
 			throw new BadRequestAlertException("A new store cannot already have an ID", ENTITY_NAME, "idexists");
 		}
 		List<Store> stores = storeRepo.findAll();
-		
+
 		stores.forEach(s -> {
 			if (storeDTO.getRegNo().equals(s.getRegNo())) {
 
@@ -80,7 +89,21 @@ public class StoreResource {
 			}
 
 		});
+
+		StoreSettingsDTO storeSettings = new StoreSettingsDTO();
+
+		storeSettings.setOrderAcceptType("automatic");
+
+		storeSettings.setDeliveryCharge(0.0);
+
+		storeSettings.setServiceCharge(0.0);
+
+		StoreSettingsDTO storeSettingsDTO = storeSettingsService.save(storeSettings);
+
+		storeDTO.setStoreSettingsId(storeSettingsDTO.getId());
+
 		StoreDTO result = storeService.save(storeDTO);
+
 		return ResponseEntity.created(new URI("/api/stores/" + result.getId()))
 				.headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString())).body(result);
 	}

@@ -1,7 +1,9 @@
 package com.diviso.graeshoppe.service;
 
 import com.diviso.graeshoppe.domain.Store;
+import com.diviso.graeshoppe.domain.StoreSettings;
 import com.diviso.graeshoppe.service.dto.StoreDTO;
+import com.diviso.graeshoppe.service.dto.StoreSettingsDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -56,4 +58,6 @@ public interface StoreService {
      * @return the list of entities
      */
     Page<StoreDTO> search(String query, Pageable pageable);
+    
+    StoreSettingsDTO findStoreSettingsByStoreId(String storeId);
 }

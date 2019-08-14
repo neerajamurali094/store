@@ -235,4 +235,8 @@ public class StoreResource {
 		storeSearchRepository.save(t3);
 	}
 
+	@GetMapping("/storesettings/{storeId}")
+	public StoreSettingsDTO findStoreSettingsByStoreId(@PathVariable String storeId){
+		return storeService.findStoreSettingsByStoreId(storeId);
+	}
 }

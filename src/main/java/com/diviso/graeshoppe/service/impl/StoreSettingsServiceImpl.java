@@ -109,4 +109,5 @@ public class StoreSettingsServiceImpl implements StoreSettingsService {
         return storeSettingsSearchRepository.search(queryStringQuery(query), pageable)
             .map(storeSettingsMapper::toDto);
     }
+
 }

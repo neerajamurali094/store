@@ -5,10 +5,13 @@ import com.diviso.graeshoppe.domain.Store;
 import com.diviso.graeshoppe.repository.StoreRepository;
 import com.diviso.graeshoppe.repository.search.StoreSearchRepository;
 import com.diviso.graeshoppe.service.dto.StoreDTO;
+import com.diviso.graeshoppe.service.dto.StoreSettingsDTO;
 import com.diviso.graeshoppe.service.mapper.StoreMapper;
+import com.diviso.graeshoppe.service.mapper.StoreSettingsMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,7 +33,8 @@ public class StoreServiceImpl implements StoreService {
 	private final StoreRepository storeRepository;
 
 	private final StoreMapper storeMapper;
-
+	@Autowired
+	private StoreSettingsMapper storeSettingsMapper;
 	private final StoreSearchRepository storeSearchRepository;
 
 	public StoreServiceImpl(StoreRepository storeRepository, StoreMapper storeMapper,
@@ -126,5 +130,18 @@ public class StoreServiceImpl implements StoreService {
 		storeSearchRepository.save(store);
 		return storeRepository.save(store);
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.diviso.graeshoppe.service.StoreService#findStoreSettingsByStoreId(
+	 * java.lang.String)
+	 */
+	@Override
+	public StoreSettingsDTO findStoreSettingsByStoreId(String storeId) {
+		log.debug("Request to get Store : {}", storeId);
+		return storeSettingsMapper.toDto(storeRepository.findStoreSettingsByStoreId(storeId));
 	}
 }

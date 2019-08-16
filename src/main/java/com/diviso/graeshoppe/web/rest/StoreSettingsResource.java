@@ -3,6 +3,7 @@ import com.diviso.graeshoppe.service.StoreSettingsService;
 import com.diviso.graeshoppe.web.rest.errors.BadRequestAlertException;
 import com.diviso.graeshoppe.web.rest.util.HeaderUtil;
 import com.diviso.graeshoppe.web.rest.util.PaginationUtil;
+import com.diviso.graeshoppe.service.dto.BannerDTO;
 import com.diviso.graeshoppe.service.dto.StoreSettingsDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -53,7 +54,11 @@ public class StoreSettingsResource {
         if (storeSettingsDTO.getId() != null) {
             throw new BadRequestAlertException("A new storeSettings cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        StoreSettingsDTO result = storeSettingsService.save(storeSettingsDTO);
+        StoreSettingsDTO result1 = storeSettingsService.save(storeSettingsDTO);
+		if (result1.getId() == null) {
+			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+		}
+		StoreSettingsDTO result = storeSettingsService.save(result1);
         return ResponseEntity.created(new URI("/api/store-settings/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

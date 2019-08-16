@@ -6,6 +6,7 @@ import com.diviso.graeshoppe.web.rest.errors.BadRequestAlertException;
 import com.diviso.graeshoppe.web.rest.util.HeaderUtil;
 import com.diviso.graeshoppe.web.rest.util.PaginationUtil;
 import com.diviso.graeshoppe.service.dto.BannerDTO;
+import com.diviso.graeshoppe.service.dto.DeliveryInfoDTO;
 import com.diviso.graeshoppe.service.dto.StoreTypeDTO;
 import com.diviso.graeshoppe.service.mapper.BannerMapper;
 
@@ -62,7 +63,11 @@ public class BannerResource {
         if (bannerDTO.getId() != null) {
             throw new BadRequestAlertException("A new banner cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        BannerDTO result = bannerService.save(bannerDTO);
+        BannerDTO result1 = bannerService.save(bannerDTO);
+		if (result1.getId() == null) {
+			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+		}
+		BannerDTO result = bannerService.save(result1);
         return ResponseEntity.created(new URI("/api/banners/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

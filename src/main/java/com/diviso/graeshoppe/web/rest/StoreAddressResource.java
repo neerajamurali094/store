@@ -3,6 +3,7 @@ import com.diviso.graeshoppe.service.StoreAddressService;
 import com.diviso.graeshoppe.web.rest.errors.BadRequestAlertException;
 import com.diviso.graeshoppe.web.rest.util.HeaderUtil;
 import com.diviso.graeshoppe.web.rest.util.PaginationUtil;
+import com.diviso.graeshoppe.service.dto.BannerDTO;
 import com.diviso.graeshoppe.service.dto.StoreAddressDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -53,7 +54,11 @@ public class StoreAddressResource {
         if (storeAddressDTO.getId() != null) {
             throw new BadRequestAlertException("A new storeAddress cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        StoreAddressDTO result = storeAddressService.save(storeAddressDTO);
+        StoreAddressDTO result1 = storeAddressService.save(storeAddressDTO);
+		if (result1.getId() == null) {
+			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+		}
+		StoreAddressDTO result = storeAddressService.save(result1);
         return ResponseEntity.created(new URI("/api/store-addresses/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

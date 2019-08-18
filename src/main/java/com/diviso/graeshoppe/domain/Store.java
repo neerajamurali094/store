@@ -89,15 +89,15 @@ public class Store implements Serializable {
     @JoinColumn(unique = true)
     private StoreSettings storeSettings;
 
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "store",cascade=CascadeType.ALL)
     private Set<StoreType> storeTypes = new HashSet<>();
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "store",cascade=CascadeType.ALL)
     private Set<Review> reviews = new HashSet<>();
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "store",cascade=CascadeType.ALL)
     private Set<UserRating> userRatings = new HashSet<>();
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "store",cascade=CascadeType.ALL)
     private Set<Banner> banners = new HashSet<>();
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "store",cascade=CascadeType.ALL)
     private Set<DeliveryInfo> deliveryInfos = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {

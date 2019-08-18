@@ -40,7 +40,7 @@ public class Review implements Serializable {
     @JsonIgnoreProperties("reviews")
     private Store store;
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "review",cascade=CascadeType.ALL)
     private Set<Reply> replies = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {

@@ -126,7 +126,7 @@ public class StoreServiceImpl implements StoreService {
 	 */
 	@Override
 	public Store saveStore(Store store) {
-		log.debug("Request to save StoreDenormalized : {}", store);
+		log.debug("Request to save StoreDenormalized :{}", store);
 		storeSearchRepository.save(store);
 		return storeRepository.save(store);
 

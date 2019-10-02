@@ -32,7 +32,7 @@ spring:
         include:
             - swagger
             # Uncomment to activate TLS for the dev profile
-            #- tls
+            - tls
     devtools:
         restart:
             enabled: true
@@ -66,7 +66,7 @@ spring:
             hibernate.generate_statistics: true
     data:
         elasticsearch:
-           cluster-name: DqhheG58ZYn8BzoMZg96DJZz
+           cluster-name: f3289c8240234fd8889f26e665ca3b2e
            cluster-nodes: https://f3289c8240234fd8889f26e665ca3b2e.asia-northeast1.gcp.cloud.es.io:9243/
            properties:
                path:

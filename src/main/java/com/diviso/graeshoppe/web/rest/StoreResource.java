@@ -239,4 +239,9 @@ public class StoreResource {
 	public StoreSettingsDTO findStoreSettingsByStoreId(@PathVariable String storeId){
 		return storeService.findStoreSettingsByStoreId(storeId);
 	}
+	
+	@GetMapping("/findByRegNo/{regNo}")
+	public Store findByRegNo(@PathVariable String regNo){
+		return storeService.findByRegNo(regNo);
+	}
 }

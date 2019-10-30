@@ -144,4 +144,10 @@ public class StoreServiceImpl implements StoreService {
 		log.debug("Request to get Store : {}", storeId);
 		return storeSettingsMapper.toDto(storeRepository.findStoreSettingsByStoreId(storeId));
 	}
+
+	@Override
+	public Store findByRegNo(String regNo) {
+		log.debug("Request to get Store : {}", regNo);
+		return storeRepository.findByRegNo(regNo);
+	}
 }

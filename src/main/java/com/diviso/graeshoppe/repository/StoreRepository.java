@@ -17,5 +17,7 @@ import org.springframework.stereotype.Repository;
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
 	@Query(value="Select distinct  settings  from Store s Join s.storeSettings  settings  Where s.regNo =:regNo ")
-	StoreSettings findStoreSettingsByStoreId(@Param("regNo")String regNo);
+	public StoreSettings findStoreSettingsByStoreId(@Param("regNo")String regNo);
+	
+	public Store findByRegNo(String regNo);
 }

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Lob;
 
+import org.springframework.data.elasticsearch.annotations.GeoPointField;
+
 /**
  * A DTO for the Store entity.
  */
@@ -21,6 +23,7 @@ public class StoreDTO implements Serializable {
     private String imageContentType;
     private Double totalRating;
 
+    @GeoPointField
     private String location;
 
     private String locationName;

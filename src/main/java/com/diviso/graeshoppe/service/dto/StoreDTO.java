@@ -1,5 +1,6 @@
 package com.diviso.graeshoppe.service.dto;
 import java.time.Instant;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Lob;
@@ -39,12 +40,20 @@ public class StoreDTO implements Serializable {
 
     private Instant maxDeliveryTime;
 
+    @NotNull
+    private String storeUniqueId;
+
+    @NotNull
+    private String imageLink;
+
 
     private Long propreitorId;
 
     private Long storeAddressId;
 
     private Long storeSettingsId;
+
+    private Long preOrderSettingsId;
 
     public Long getId() {
         return id;
@@ -166,6 +175,22 @@ public class StoreDTO implements Serializable {
         this.maxDeliveryTime = maxDeliveryTime;
     }
 
+    public String getStoreUniqueId() {
+        return storeUniqueId;
+    }
+
+    public void setStoreUniqueId(String storeUniqueId) {
+        this.storeUniqueId = storeUniqueId;
+    }
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
+
     public Long getPropreitorId() {
         return propreitorId;
     }
@@ -188,6 +213,14 @@ public class StoreDTO implements Serializable {
 
     public void setStoreSettingsId(Long storeSettingsId) {
         this.storeSettingsId = storeSettingsId;
+    }
+
+    public Long getPreOrderSettingsId() {
+        return preOrderSettingsId;
+    }
+
+    public void setPreOrderSettingsId(Long preOrderSettingsId) {
+        this.preOrderSettingsId = preOrderSettingsId;
     }
 
     @Override
@@ -228,9 +261,12 @@ public class StoreDTO implements Serializable {
             ", info='" + getInfo() + "'" +
             ", minAmount=" + getMinAmount() +
             ", maxDeliveryTime='" + getMaxDeliveryTime() + "'" +
+            ", storeUniqueId='" + getStoreUniqueId() + "'" +
+            ", imageLink='" + getImageLink() + "'" +
             ", propreitor=" + getPropreitorId() +
             ", storeAddress=" + getStoreAddressId() +
             ", storeSettings=" + getStoreSettingsId() +
+            ", preOrderSettings=" + getPreOrderSettingsId() +
             "}";
     }
 }

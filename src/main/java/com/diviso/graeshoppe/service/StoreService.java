@@ -60,4 +60,8 @@ public interface StoreService {
     Page<StoreDTO> search(String query, Pageable pageable);
     
     StoreSettingsDTO findStoreSettingsByStoreId(String storeId);
+
+	Store findByRegNo(String regNo);
+
+	StoreDTO update(StoreDTO storeDTO);
 }

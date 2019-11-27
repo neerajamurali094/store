@@ -1,6 +1,7 @@
 package com.diviso.graeshoppe.service.impl;
 
 import com.diviso.graeshoppe.service.BannerService;
+import com.diviso.graeshoppe.service.ImageService;
 import com.diviso.graeshoppe.domain.Banner;
 import com.diviso.graeshoppe.repository.BannerRepository;
 import com.diviso.graeshoppe.repository.search.BannerSearchRepository;
@@ -8,13 +9,14 @@ import com.diviso.graeshoppe.service.dto.BannerDTO;
 import com.diviso.graeshoppe.service.mapper.BannerMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -26,6 +28,10 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class BannerServiceImpl implements BannerService {
 
     private final Logger log = LoggerFactory.getLogger(BannerServiceImpl.class);
+    
+	@Autowired
+	private ImageService imageService;
+    
 
     private final BannerRepository bannerRepository;
 
@@ -49,6 +55,10 @@ public class BannerServiceImpl implements BannerService {
     public BannerDTO save(BannerDTO bannerDTO) {
         log.debug("Request to save Banner : {}", bannerDTO);
         Banner banner = bannerMapper.toEntity(bannerDTO);
+		String imageLink = imageService.saveFile("banner", UUID.randomUUID().toString(), bannerDTO.getFile());
+		banner.setImageLink(imageLink);
+		banner.setFile(null);
+		banner.setFileContentType(null);
         banner = bannerRepository.save(banner);
         BannerDTO result = bannerMapper.toDto(banner);
         bannerSearchRepository.save(banner);

@@ -29,6 +29,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="image_link" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="store_id" type="bigint">
                 <constraints nullable="true" />
             </column>

@@ -137,7 +137,7 @@ public class StoreResource {
 		if (storeDTO.getId() == null) {
 			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
 		}
-		StoreDTO result = storeService.save(storeDTO);
+		StoreDTO result = storeService.update(storeDTO);
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, storeDTO.getId().toString()))
 				.body(result);
 	}
@@ -238,5 +238,10 @@ public class StoreResource {
 	@GetMapping("/storesettings/{storeId}")
 	public StoreSettingsDTO findStoreSettingsByStoreId(@PathVariable String storeId){
 		return storeService.findStoreSettingsByStoreId(storeId);
+	}
+	
+	@GetMapping("/findByRegNo/{regNo}")
+	public Store findByRegNo(@PathVariable String regNo){
+		return storeService.findByRegNo(regNo);
 	}
 }

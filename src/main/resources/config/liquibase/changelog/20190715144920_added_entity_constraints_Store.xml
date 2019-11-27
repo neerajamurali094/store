@@ -26,5 +26,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="store_settings"/>
 
+        <addForeignKeyConstraint baseColumnNames="pre_order_settings_id"
+                                 baseTableName="store"
+                                 constraintName="fk_store_pre_order_settings_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="pre_order_settings"/>
+
     </changeSet>
 </databaseChangeLog>

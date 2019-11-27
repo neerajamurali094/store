@@ -58,6 +58,12 @@ public class StoreSettingsResourceIntTest {
     private static final String DEFAULT_ORDER_ACCEPT_TYPE = "AAAAAAAAAA";
     private static final String UPDATED_ORDER_ACCEPT_TYPE = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_IS_INVENTORY_REQUIRED = false;
+    private static final Boolean UPDATED_IS_INVENTORY_REQUIRED = true;
+
+    private static final Boolean DEFAULT_IS_ACTIVE = false;
+    private static final Boolean UPDATED_IS_ACTIVE = true;
+
     @Autowired
     private StoreSettingsRepository storeSettingsRepository;
 
@@ -116,7 +122,9 @@ public class StoreSettingsResourceIntTest {
         StoreSettings storeSettings = new StoreSettings()
             .deliveryCharge(DEFAULT_DELIVERY_CHARGE)
             .serviceCharge(DEFAULT_SERVICE_CHARGE)
-            .orderAcceptType(DEFAULT_ORDER_ACCEPT_TYPE);
+            .orderAcceptType(DEFAULT_ORDER_ACCEPT_TYPE)
+            .isInventoryRequired(DEFAULT_IS_INVENTORY_REQUIRED)
+            .isActive(DEFAULT_IS_ACTIVE);
         return storeSettings;
     }
 
@@ -144,6 +152,8 @@ public class StoreSettingsResourceIntTest {
         assertThat(testStoreSettings.getDeliveryCharge()).isEqualTo(DEFAULT_DELIVERY_CHARGE);
         assertThat(testStoreSettings.getServiceCharge()).isEqualTo(DEFAULT_SERVICE_CHARGE);
         assertThat(testStoreSettings.getOrderAcceptType()).isEqualTo(DEFAULT_ORDER_ACCEPT_TYPE);
+        assertThat(testStoreSettings.isIsInventoryRequired()).isEqualTo(DEFAULT_IS_INVENTORY_REQUIRED);
+        assertThat(testStoreSettings.isIsActive()).isEqualTo(DEFAULT_IS_ACTIVE);
 
         // Validate the StoreSettings in Elasticsearch
         verify(mockStoreSettingsSearchRepository, times(1)).save(testStoreSettings);
@@ -185,7 +195,9 @@ public class StoreSettingsResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(storeSettings.getId().intValue())))
             .andExpect(jsonPath("$.[*].deliveryCharge").value(hasItem(DEFAULT_DELIVERY_CHARGE.doubleValue())))
             .andExpect(jsonPath("$.[*].serviceCharge").value(hasItem(DEFAULT_SERVICE_CHARGE.doubleValue())))
-            .andExpect(jsonPath("$.[*].orderAcceptType").value(hasItem(DEFAULT_ORDER_ACCEPT_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].orderAcceptType").value(hasItem(DEFAULT_ORDER_ACCEPT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].isInventoryRequired").value(hasItem(DEFAULT_IS_INVENTORY_REQUIRED.booleanValue())))
+            .andExpect(jsonPath("$.[*].isActive").value(hasItem(DEFAULT_IS_ACTIVE.booleanValue())));
     }
     
     @Test
@@ -201,7 +213,9 @@ public class StoreSettingsResourceIntTest {
             .andExpect(jsonPath("$.id").value(storeSettings.getId().intValue()))
             .andExpect(jsonPath("$.deliveryCharge").value(DEFAULT_DELIVERY_CHARGE.doubleValue()))
             .andExpect(jsonPath("$.serviceCharge").value(DEFAULT_SERVICE_CHARGE.doubleValue()))
-            .andExpect(jsonPath("$.orderAcceptType").value(DEFAULT_ORDER_ACCEPT_TYPE.toString()));
+            .andExpect(jsonPath("$.orderAcceptType").value(DEFAULT_ORDER_ACCEPT_TYPE.toString()))
+            .andExpect(jsonPath("$.isInventoryRequired").value(DEFAULT_IS_INVENTORY_REQUIRED.booleanValue()))
+            .andExpect(jsonPath("$.isActive").value(DEFAULT_IS_ACTIVE.booleanValue()));
     }
 
     @Test
@@ -227,7 +241,9 @@ public class StoreSettingsResourceIntTest {
         updatedStoreSettings
             .deliveryCharge(UPDATED_DELIVERY_CHARGE)
             .serviceCharge(UPDATED_SERVICE_CHARGE)
-            .orderAcceptType(UPDATED_ORDER_ACCEPT_TYPE);
+            .orderAcceptType(UPDATED_ORDER_ACCEPT_TYPE)
+            .isInventoryRequired(UPDATED_IS_INVENTORY_REQUIRED)
+            .isActive(UPDATED_IS_ACTIVE);
         StoreSettingsDTO storeSettingsDTO = storeSettingsMapper.toDto(updatedStoreSettings);
 
         restStoreSettingsMockMvc.perform(put("/api/store-settings")
@@ -242,6 +258,8 @@ public class StoreSettingsResourceIntTest {
         assertThat(testStoreSettings.getDeliveryCharge()).isEqualTo(UPDATED_DELIVERY_CHARGE);
         assertThat(testStoreSettings.getServiceCharge()).isEqualTo(UPDATED_SERVICE_CHARGE);
         assertThat(testStoreSettings.getOrderAcceptType()).isEqualTo(UPDATED_ORDER_ACCEPT_TYPE);
+        assertThat(testStoreSettings.isIsInventoryRequired()).isEqualTo(UPDATED_IS_INVENTORY_REQUIRED);
+        assertThat(testStoreSettings.isIsActive()).isEqualTo(UPDATED_IS_ACTIVE);
 
         // Validate the StoreSettings in Elasticsearch
         verify(mockStoreSettingsSearchRepository, times(1)).save(testStoreSettings);
@@ -304,7 +322,9 @@ public class StoreSettingsResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(storeSettings.getId().intValue())))
             .andExpect(jsonPath("$.[*].deliveryCharge").value(hasItem(DEFAULT_DELIVERY_CHARGE.doubleValue())))
             .andExpect(jsonPath("$.[*].serviceCharge").value(hasItem(DEFAULT_SERVICE_CHARGE.doubleValue())))
-            .andExpect(jsonPath("$.[*].orderAcceptType").value(hasItem(DEFAULT_ORDER_ACCEPT_TYPE)));
+            .andExpect(jsonPath("$.[*].orderAcceptType").value(hasItem(DEFAULT_ORDER_ACCEPT_TYPE)))
+            .andExpect(jsonPath("$.[*].isInventoryRequired").value(hasItem(DEFAULT_IS_INVENTORY_REQUIRED.booleanValue())))
+            .andExpect(jsonPath("$.[*].isActive").value(hasItem(DEFAULT_IS_ACTIVE.booleanValue())));
     }
 
     @Test

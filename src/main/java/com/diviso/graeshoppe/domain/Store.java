@@ -4,18 +4,14 @@ package com.diviso.graeshoppe.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.GeoPointField;
-import org.springframework.data.elasticsearch.annotations.Mapping;
-import org.springframework.data.elasticsearch.annotations.Setting;
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
-import org.springframework.data.elasticsearch.annotations.GeoPointField;
 
 /**
  * A Store.
@@ -23,8 +19,6 @@ import org.springframework.data.elasticsearch.annotations.GeoPointField;
 @Entity
 @Table(name = "store")
 @Document(indexName = "store")
-@Setting(settingPath = "settings/storesettings.json")
-@Mapping(mappingPath = "mappings/storemappings.json") 
 public class Store implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,7 +43,6 @@ public class Store implements Serializable {
     @Column(name = "total_rating")
     private Double totalRating;
 
-    @GeoPointField
     @Column(name = "location")
     private String location;
 
@@ -77,6 +70,14 @@ public class Store implements Serializable {
     @Column(name = "max_delivery_time")
     private Instant maxDeliveryTime;
 
+    @NotNull
+    @Column(name = "store_unique_id", nullable = false)
+    private String storeUniqueId;
+
+    @NotNull
+    @Column(name = "image_link", nullable = false)
+    private String imageLink;
+
     @OneToOne
     @JoinColumn(unique = true)
     private Propreitor propreitor;
@@ -89,16 +90,22 @@ public class Store implements Serializable {
     @JoinColumn(unique = true)
     private StoreSettings storeSettings;
 
-    @OneToMany(mappedBy = "store",cascade=CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(unique = true)
+    private PreOrderSettings preOrderSettings;
+
+    @OneToMany(mappedBy = "store")
     private Set<StoreType> storeTypes = new HashSet<>();
-    @OneToMany(mappedBy = "store",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "store")
     private Set<Review> reviews = new HashSet<>();
-    @OneToMany(mappedBy = "store",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "store")
     private Set<UserRating> userRatings = new HashSet<>();
-    @OneToMany(mappedBy = "store",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "store")
     private Set<Banner> banners = new HashSet<>();
-    @OneToMany(mappedBy = "store",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "store")
     private Set<DeliveryInfo> deliveryInfos = new HashSet<>();
+    @OneToMany(mappedBy = "store")
+    private Set<UserRatingReview> userRatingReviews = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -290,6 +297,32 @@ public class Store implements Serializable {
         this.maxDeliveryTime = maxDeliveryTime;
     }
 
+    public String getStoreUniqueId() {
+        return storeUniqueId;
+    }
+
+    public Store storeUniqueId(String storeUniqueId) {
+        this.storeUniqueId = storeUniqueId;
+        return this;
+    }
+
+    public void setStoreUniqueId(String storeUniqueId) {
+        this.storeUniqueId = storeUniqueId;
+    }
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public Store imageLink(String imageLink) {
+        this.imageLink = imageLink;
+        return this;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
+
     public Propreitor getPropreitor() {
         return propreitor;
     }
@@ -327,6 +360,19 @@ public class Store implements Serializable {
 
     public void setStoreSettings(StoreSettings storeSettings) {
         this.storeSettings = storeSettings;
+    }
+
+    public PreOrderSettings getPreOrderSettings() {
+        return preOrderSettings;
+    }
+
+    public Store preOrderSettings(PreOrderSettings preOrderSettings) {
+        this.preOrderSettings = preOrderSettings;
+        return this;
+    }
+
+    public void setPreOrderSettings(PreOrderSettings preOrderSettings) {
+        this.preOrderSettings = preOrderSettings;
     }
 
     public Set<StoreType> getStoreTypes() {
@@ -453,6 +499,31 @@ public class Store implements Serializable {
     public void setDeliveryInfos(Set<DeliveryInfo> deliveryInfos) {
         this.deliveryInfos = deliveryInfos;
     }
+
+    public Set<UserRatingReview> getUserRatingReviews() {
+        return userRatingReviews;
+    }
+
+    public Store userRatingReviews(Set<UserRatingReview> userRatingReviews) {
+        this.userRatingReviews = userRatingReviews;
+        return this;
+    }
+
+    public Store addUserRatingReview(UserRatingReview userRatingReview) {
+        this.userRatingReviews.add(userRatingReview);
+        userRatingReview.setStore(this);
+        return this;
+    }
+
+    public Store removeUserRatingReview(UserRatingReview userRatingReview) {
+        this.userRatingReviews.remove(userRatingReview);
+        userRatingReview.setStore(null);
+        return this;
+    }
+
+    public void setUserRatingReviews(Set<UserRatingReview> userRatingReviews) {
+        this.userRatingReviews = userRatingReviews;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -493,6 +564,8 @@ public class Store implements Serializable {
             ", info='" + getInfo() + "'" +
             ", minAmount=" + getMinAmount() +
             ", maxDeliveryTime='" + getMaxDeliveryTime() + "'" +
+            ", storeUniqueId='" + getStoreUniqueId() + "'" +
+            ", imageLink='" + getImageLink() + "'" +
             "}";
     }
 }

@@ -15,35 +15,36 @@
     <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
     <!--
-        Added the entity StoreSettings.
+        Added the entity UserRatingReview.
     -->
-    <changeSet id="20190801091328-1" author="jhipster">
-        <createTable tableName="store_settings">
+    <changeSet id="20191125043440-1" author="jhipster">
+        <createTable tableName="user_rating_review">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="delivery_charge" type="double">
+            <column name="user_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="service_charge" type="double">
+            <column name="rating" type="double">
                 <constraints nullable="true" />
             </column>
 
-            <column name="order_accept_type" type="varchar(255)">
+            <column name="review" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="is_inventory_required" type="boolean">
+            <column name="jhi_date" type="datetime">
                 <constraints nullable="true" />
             </column>
 
-            <column name="is_active" type="boolean">
+            <column name="store_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        <dropDefaultValue tableName="user_rating_review" columnName="jhi_date" columnDataType="datetime"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

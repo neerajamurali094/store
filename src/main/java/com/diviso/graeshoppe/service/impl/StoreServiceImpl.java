@@ -1,5 +1,6 @@
 package com.diviso.graeshoppe.service.impl;
 
+import com.diviso.graeshoppe.service.ImageService;
 import com.diviso.graeshoppe.service.StoreService;
 import com.diviso.graeshoppe.domain.Store;
 import com.diviso.graeshoppe.repository.StoreRepository;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -33,6 +35,11 @@ public class StoreServiceImpl implements StoreService {
 	private final StoreRepository storeRepository;
 
 	private final StoreMapper storeMapper;
+	
+	@Autowired
+	private ImageService imageService;
+	
+	
 	@Autowired
 	private StoreSettingsMapper storeSettingsMapper;
 	private final StoreSearchRepository storeSearchRepository;
@@ -55,6 +62,20 @@ public class StoreServiceImpl implements StoreService {
 	public StoreDTO save(StoreDTO storeDTO) {
 		log.debug("Request to save Store : {}", storeDTO);
 		Store store = storeMapper.toEntity(storeDTO);
+		store = storeRepository.save(store);
+		StoreDTO result = storeMapper.toDto(store);
+		storeSearchRepository.save(store);
+		return result;
+	}
+	
+	@Override
+	public StoreDTO update(StoreDTO storeDTO) {
+		log.debug("Request to save Store : {}", storeDTO);
+		Store store = storeMapper.toEntity(storeDTO);
+		String imageLink  = imageService.saveFile("store", UUID.randomUUID().toString(), storeDTO.getImage());
+		store.setImageLink(imageLink);
+		store.setImage(null);
+		store.setImageContentType(null);
 		store = storeRepository.save(store);
 		StoreDTO result = storeMapper.toDto(store);
 		storeSearchRepository.save(store);
@@ -143,5 +164,11 @@ public class StoreServiceImpl implements StoreService {
 	public StoreSettingsDTO findStoreSettingsByStoreId(String storeId) {
 		log.debug("Request to get Store : {}", storeId);
 		return storeSettingsMapper.toDto(storeRepository.findStoreSettingsByStoreId(storeId));
+	}
+
+	@Override
+	public Store findByRegNo(String regNo) {
+		log.debug("Request to get Store : {}", regNo);
+		return storeRepository.findByRegNo(regNo);
 	}
 }

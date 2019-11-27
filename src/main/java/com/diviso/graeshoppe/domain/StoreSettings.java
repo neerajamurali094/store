@@ -31,6 +31,12 @@ public class StoreSettings implements Serializable {
     @Column(name = "order_accept_type")
     private String orderAcceptType;
 
+    @Column(name = "is_inventory_required")
+    private Boolean isInventoryRequired;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -78,6 +84,32 @@ public class StoreSettings implements Serializable {
     public void setOrderAcceptType(String orderAcceptType) {
         this.orderAcceptType = orderAcceptType;
     }
+
+    public Boolean isIsInventoryRequired() {
+        return isInventoryRequired;
+    }
+
+    public StoreSettings isInventoryRequired(Boolean isInventoryRequired) {
+        this.isInventoryRequired = isInventoryRequired;
+        return this;
+    }
+
+    public void setIsInventoryRequired(Boolean isInventoryRequired) {
+        this.isInventoryRequired = isInventoryRequired;
+    }
+
+    public Boolean isIsActive() {
+        return isActive;
+    }
+
+    public StoreSettings isActive(Boolean isActive) {
+        this.isActive = isActive;
+        return this;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -107,6 +139,8 @@ public class StoreSettings implements Serializable {
             ", deliveryCharge=" + getDeliveryCharge() +
             ", serviceCharge=" + getServiceCharge() +
             ", orderAcceptType='" + getOrderAcceptType() + "'" +
+            ", isInventoryRequired='" + isIsInventoryRequired() + "'" +
+            ", isActive='" + isIsActive() + "'" +
             "}";
     }
 }

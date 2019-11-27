@@ -55,6 +55,9 @@ public class BannerResourceIntTest {
     private static final String DEFAULT_FILE_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_FILE_CONTENT_TYPE = "image/png";
 
+    private static final String DEFAULT_IMAGE_LINK = "AAAAAAAAAA";
+    private static final String UPDATED_IMAGE_LINK = "BBBBBBBBBB";
+
     @Autowired
     private BannerRepository bannerRepository;
 
@@ -112,7 +115,8 @@ public class BannerResourceIntTest {
     public static Banner createEntity(EntityManager em) {
         Banner banner = new Banner()
             .file(DEFAULT_FILE)
-            .fileContentType(DEFAULT_FILE_CONTENT_TYPE);
+            .fileContentType(DEFAULT_FILE_CONTENT_TYPE)
+            .imageLink(DEFAULT_IMAGE_LINK);
         return banner;
     }
 
@@ -139,6 +143,7 @@ public class BannerResourceIntTest {
         Banner testBanner = bannerList.get(bannerList.size() - 1);
         assertThat(testBanner.getFile()).isEqualTo(DEFAULT_FILE);
         assertThat(testBanner.getFileContentType()).isEqualTo(DEFAULT_FILE_CONTENT_TYPE);
+        assertThat(testBanner.getImageLink()).isEqualTo(DEFAULT_IMAGE_LINK);
 
         // Validate the Banner in Elasticsearch
         verify(mockBannerSearchRepository, times(1)).save(testBanner);
@@ -179,7 +184,8 @@ public class BannerResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(banner.getId().intValue())))
             .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
+            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))))
+            .andExpect(jsonPath("$.[*].imageLink").value(hasItem(DEFAULT_IMAGE_LINK.toString())));
     }
     
     @Test
@@ -194,7 +200,8 @@ public class BannerResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(banner.getId().intValue()))
             .andExpect(jsonPath("$.fileContentType").value(DEFAULT_FILE_CONTENT_TYPE))
-            .andExpect(jsonPath("$.file").value(Base64Utils.encodeToString(DEFAULT_FILE)));
+            .andExpect(jsonPath("$.file").value(Base64Utils.encodeToString(DEFAULT_FILE)))
+            .andExpect(jsonPath("$.imageLink").value(DEFAULT_IMAGE_LINK.toString()));
     }
 
     @Test
@@ -219,7 +226,8 @@ public class BannerResourceIntTest {
         em.detach(updatedBanner);
         updatedBanner
             .file(UPDATED_FILE)
-            .fileContentType(UPDATED_FILE_CONTENT_TYPE);
+            .fileContentType(UPDATED_FILE_CONTENT_TYPE)
+            .imageLink(UPDATED_IMAGE_LINK);
         BannerDTO bannerDTO = bannerMapper.toDto(updatedBanner);
 
         restBannerMockMvc.perform(put("/api/banners")
@@ -233,6 +241,7 @@ public class BannerResourceIntTest {
         Banner testBanner = bannerList.get(bannerList.size() - 1);
         assertThat(testBanner.getFile()).isEqualTo(UPDATED_FILE);
         assertThat(testBanner.getFileContentType()).isEqualTo(UPDATED_FILE_CONTENT_TYPE);
+        assertThat(testBanner.getImageLink()).isEqualTo(UPDATED_IMAGE_LINK);
 
         // Validate the Banner in Elasticsearch
         verify(mockBannerSearchRepository, times(1)).save(testBanner);
@@ -294,7 +303,8 @@ public class BannerResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(banner.getId().intValue())))
             .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
+            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))))
+            .andExpect(jsonPath("$.[*].imageLink").value(hasItem(DEFAULT_IMAGE_LINK)));
     }
 
     @Test

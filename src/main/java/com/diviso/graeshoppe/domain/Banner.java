@@ -30,6 +30,9 @@ public class Banner implements Serializable {
     @Column(name = "jhi_file_content_type")
     private String fileContentType;
 
+    @Column(name = "image_link")
+    private String imageLink;
+
     @ManyToOne
     @JsonIgnoreProperties("banners")
     private Store store;
@@ -67,6 +70,19 @@ public class Banner implements Serializable {
 
     public void setFileContentType(String fileContentType) {
         this.fileContentType = fileContentType;
+    }
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public Banner imageLink(String imageLink) {
+        this.imageLink = imageLink;
+        return this;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 
     public Store getStore() {
@@ -109,6 +125,7 @@ public class Banner implements Serializable {
             "id=" + getId() +
             ", file='" + getFile() + "'" +
             ", fileContentType='" + getFileContentType() + "'" +
+            ", imageLink='" + getImageLink() + "'" +
             "}";
     }
 }

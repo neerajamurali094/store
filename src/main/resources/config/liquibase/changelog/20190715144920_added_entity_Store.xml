@@ -76,12 +76,22 @@
             <column name="max_delivery_time" type="datetime">
                 <constraints nullable="true" />
             </column>
+
+            <column name="store_unique_id" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="image_link" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
             <column name="propreitor_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_store_propreitor_id" />
             </column>            <column name="store_address_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_store_store_address_id" />
             </column>            <column name="store_settings_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_store_store_settings_id" />
+            </column>            <column name="pre_order_settings_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_store_pre_order_settings_id" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>

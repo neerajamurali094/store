@@ -14,6 +14,8 @@ public class BannerDTO implements Serializable {
     private byte[] file;
 
     private String fileContentType;
+    private String imageLink;
+
 
     private Long storeId;
 
@@ -39,6 +41,14 @@ public class BannerDTO implements Serializable {
 
     public void setFileContentType(String fileContentType) {
         this.fileContentType = fileContentType;
+    }
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 
     public Long getStoreId() {
@@ -75,6 +85,7 @@ public class BannerDTO implements Serializable {
         return "BannerDTO{" +
             "id=" + getId() +
             ", file='" + getFile() + "'" +
+            ", imageLink='" + getImageLink() + "'" +
             ", store=" + getStoreId() +
             "}";
     }

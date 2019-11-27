@@ -15,6 +15,10 @@ public class StoreSettingsDTO implements Serializable {
 
     private String orderAcceptType;
 
+    private Boolean isInventoryRequired;
+
+    private Boolean isActive;
+
 
     public Long getId() {
         return id;
@@ -48,6 +52,22 @@ public class StoreSettingsDTO implements Serializable {
         this.orderAcceptType = orderAcceptType;
     }
 
+    public Boolean isIsInventoryRequired() {
+        return isInventoryRequired;
+    }
+
+    public void setIsInventoryRequired(Boolean isInventoryRequired) {
+        this.isInventoryRequired = isInventoryRequired;
+    }
+
+    public Boolean isIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -76,6 +96,8 @@ public class StoreSettingsDTO implements Serializable {
             ", deliveryCharge=" + getDeliveryCharge() +
             ", serviceCharge=" + getServiceCharge() +
             ", orderAcceptType='" + getOrderAcceptType() + "'" +
+            ", isInventoryRequired='" + isIsInventoryRequired() + "'" +
+            ", isActive='" + isIsActive() + "'" +
             "}";
     }
 }

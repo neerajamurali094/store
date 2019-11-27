@@ -209,3 +209,13 @@ jhipster:
 # ===================================================================
 
 # application:
+minio:
+   server:
+      url: http://dev.servers.divisosofttech.com:9000
+      accessKey: R0WPNXCYE0OUI134W1GD
+      secretKey: E7jCb+99h1xYy84QoDpqm1aITTGt7gRJp8gv73uw
+   buckets:
+      store: graeshoppe-store-images
+      banner: graeshoppe-banner-images
+   configuration:
+      contentType: images/png

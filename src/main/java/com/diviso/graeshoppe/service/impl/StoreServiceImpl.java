@@ -1,5 +1,6 @@
 package com.diviso.graeshoppe.service.impl;
 
+import com.diviso.graeshoppe.service.ImageService;
 import com.diviso.graeshoppe.service.StoreService;
 import com.diviso.graeshoppe.domain.Store;
 import com.diviso.graeshoppe.repository.StoreRepository;
@@ -33,6 +34,11 @@ public class StoreServiceImpl implements StoreService {
 	private final StoreRepository storeRepository;
 
 	private final StoreMapper storeMapper;
+	
+	@Autowired
+	private ImageService imageService;
+	
+	
 	@Autowired
 	private StoreSettingsMapper storeSettingsMapper;
 	private final StoreSearchRepository storeSearchRepository;
@@ -55,6 +61,8 @@ public class StoreServiceImpl implements StoreService {
 	public StoreDTO save(StoreDTO storeDTO) {
 		log.debug("Request to save Store : {}", storeDTO);
 		Store store = storeMapper.toEntity(storeDTO);
+		String imageLink  = imageService.saveFile("store", store.getId(), storeDTO.getImage());
+		store.setImageLink(imageLink);
 		store = storeRepository.save(store);
 		StoreDTO result = storeMapper.toDto(store);
 		storeSearchRepository.save(store);

@@ -93,6 +93,12 @@ public class StoreResourceIntTest {
     private static final Instant DEFAULT_MAX_DELIVERY_TIME = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_MAX_DELIVERY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final String DEFAULT_STORE_UNIQUE_ID = "AAAAAAAAAA";
+    private static final String UPDATED_STORE_UNIQUE_ID = "BBBBBBBBBB";
+
+    private static final String DEFAULT_IMAGE_LINK = "AAAAAAAAAA";
+    private static final String UPDATED_IMAGE_LINK = "BBBBBBBBBB";
+
     @Autowired
     private StoreRepository storeRepository;
 
@@ -162,7 +168,9 @@ public class StoreResourceIntTest {
             .closingTime(DEFAULT_CLOSING_TIME)
             .info(DEFAULT_INFO)
             .minAmount(DEFAULT_MIN_AMOUNT)
-            .maxDeliveryTime(DEFAULT_MAX_DELIVERY_TIME);
+            .maxDeliveryTime(DEFAULT_MAX_DELIVERY_TIME)
+            .storeUniqueId(DEFAULT_STORE_UNIQUE_ID)
+            .imageLink(DEFAULT_IMAGE_LINK);
         return store;
     }
 
@@ -201,6 +209,8 @@ public class StoreResourceIntTest {
         assertThat(testStore.getInfo()).isEqualTo(DEFAULT_INFO);
         assertThat(testStore.getMinAmount()).isEqualTo(DEFAULT_MIN_AMOUNT);
         assertThat(testStore.getMaxDeliveryTime()).isEqualTo(DEFAULT_MAX_DELIVERY_TIME);
+        assertThat(testStore.getStoreUniqueId()).isEqualTo(DEFAULT_STORE_UNIQUE_ID);
+        assertThat(testStore.getImageLink()).isEqualTo(DEFAULT_IMAGE_LINK);
 
         // Validate the Store in Elasticsearch
         verify(mockStoreSearchRepository, times(1)).save(testStore);
@@ -231,6 +241,44 @@ public class StoreResourceIntTest {
 
     @Test
     @Transactional
+    public void checkStoreUniqueIdIsRequired() throws Exception {
+        int databaseSizeBeforeTest = storeRepository.findAll().size();
+        // set the field null
+        store.setStoreUniqueId(null);
+
+        // Create the Store, which fails.
+        StoreDTO storeDTO = storeMapper.toDto(store);
+
+        restStoreMockMvc.perform(post("/api/stores")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(storeDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Store> storeList = storeRepository.findAll();
+        assertThat(storeList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkImageLinkIsRequired() throws Exception {
+        int databaseSizeBeforeTest = storeRepository.findAll().size();
+        // set the field null
+        store.setImageLink(null);
+
+        // Create the Store, which fails.
+        StoreDTO storeDTO = storeMapper.toDto(store);
+
+        restStoreMockMvc.perform(post("/api/stores")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(storeDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Store> storeList = storeRepository.findAll();
+        assertThat(storeList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllStores() throws Exception {
         // Initialize the database
         storeRepository.saveAndFlush(store);
@@ -253,7 +301,9 @@ public class StoreResourceIntTest {
             .andExpect(jsonPath("$.[*].closingTime").value(hasItem(DEFAULT_CLOSING_TIME.toString())))
             .andExpect(jsonPath("$.[*].info").value(hasItem(DEFAULT_INFO.toString())))
             .andExpect(jsonPath("$.[*].minAmount").value(hasItem(DEFAULT_MIN_AMOUNT.doubleValue())))
-            .andExpect(jsonPath("$.[*].maxDeliveryTime").value(hasItem(DEFAULT_MAX_DELIVERY_TIME.toString())));
+            .andExpect(jsonPath("$.[*].maxDeliveryTime").value(hasItem(DEFAULT_MAX_DELIVERY_TIME.toString())))
+            .andExpect(jsonPath("$.[*].storeUniqueId").value(hasItem(DEFAULT_STORE_UNIQUE_ID.toString())))
+            .andExpect(jsonPath("$.[*].imageLink").value(hasItem(DEFAULT_IMAGE_LINK.toString())));
     }
     
     @Test
@@ -280,7 +330,9 @@ public class StoreResourceIntTest {
             .andExpect(jsonPath("$.closingTime").value(DEFAULT_CLOSING_TIME.toString()))
             .andExpect(jsonPath("$.info").value(DEFAULT_INFO.toString()))
             .andExpect(jsonPath("$.minAmount").value(DEFAULT_MIN_AMOUNT.doubleValue()))
-            .andExpect(jsonPath("$.maxDeliveryTime").value(DEFAULT_MAX_DELIVERY_TIME.toString()));
+            .andExpect(jsonPath("$.maxDeliveryTime").value(DEFAULT_MAX_DELIVERY_TIME.toString()))
+            .andExpect(jsonPath("$.storeUniqueId").value(DEFAULT_STORE_UNIQUE_ID.toString()))
+            .andExpect(jsonPath("$.imageLink").value(DEFAULT_IMAGE_LINK.toString()));
     }
 
     @Test
@@ -317,7 +369,9 @@ public class StoreResourceIntTest {
             .closingTime(UPDATED_CLOSING_TIME)
             .info(UPDATED_INFO)
             .minAmount(UPDATED_MIN_AMOUNT)
-            .maxDeliveryTime(UPDATED_MAX_DELIVERY_TIME);
+            .maxDeliveryTime(UPDATED_MAX_DELIVERY_TIME)
+            .storeUniqueId(UPDATED_STORE_UNIQUE_ID)
+            .imageLink(UPDATED_IMAGE_LINK);
         StoreDTO storeDTO = storeMapper.toDto(updatedStore);
 
         restStoreMockMvc.perform(put("/api/stores")
@@ -343,6 +397,8 @@ public class StoreResourceIntTest {
         assertThat(testStore.getInfo()).isEqualTo(UPDATED_INFO);
         assertThat(testStore.getMinAmount()).isEqualTo(UPDATED_MIN_AMOUNT);
         assertThat(testStore.getMaxDeliveryTime()).isEqualTo(UPDATED_MAX_DELIVERY_TIME);
+        assertThat(testStore.getStoreUniqueId()).isEqualTo(UPDATED_STORE_UNIQUE_ID);
+        assertThat(testStore.getImageLink()).isEqualTo(UPDATED_IMAGE_LINK);
 
         // Validate the Store in Elasticsearch
         verify(mockStoreSearchRepository, times(1)).save(testStore);
@@ -416,7 +472,9 @@ public class StoreResourceIntTest {
             .andExpect(jsonPath("$.[*].closingTime").value(hasItem(DEFAULT_CLOSING_TIME.toString())))
             .andExpect(jsonPath("$.[*].info").value(hasItem(DEFAULT_INFO)))
             .andExpect(jsonPath("$.[*].minAmount").value(hasItem(DEFAULT_MIN_AMOUNT.doubleValue())))
-            .andExpect(jsonPath("$.[*].maxDeliveryTime").value(hasItem(DEFAULT_MAX_DELIVERY_TIME.toString())));
+            .andExpect(jsonPath("$.[*].maxDeliveryTime").value(hasItem(DEFAULT_MAX_DELIVERY_TIME.toString())))
+            .andExpect(jsonPath("$.[*].storeUniqueId").value(hasItem(DEFAULT_STORE_UNIQUE_ID)))
+            .andExpect(jsonPath("$.[*].imageLink").value(hasItem(DEFAULT_IMAGE_LINK)));
     }
 
     @Test

@@ -12,18 +12,30 @@ entity Store{
     closingTime Instant,
     info String,
 	minAmount Double,
-    maxDeliveryTime Instant
+    maxDeliveryTime Instant,
+    storeUniqueId String required,
+    imageLink String required
 }
 
 entity StoreSettings{
 	deliveryCharge Double,
 	serviceCharge Double,
-	orderAcceptType String 
+	orderAcceptType String ,
+	isInventoryRequired Boolean,
+    isActive Boolean
+}
+
+entity PreOrderSettings{
+
+	isPreOrderAvailable Boolean,
+	fromTime ZonedDateTime,
+	toTime ZonedDateTime
 }
 
 entity Banner{
 
-    file ImageBlob
+    file ImageBlob,
+     imageLink String
 }
 
 entity Propreitor{
@@ -70,15 +82,24 @@ entity StoreAddress{
 	landmark String,
 	name String,
 	phone Long,
-	alternatePhone Long
+	alternatePhone Long,
 	addressType String
 }
+entity UserRatingReview{
+	userName String,
+	 rating Double,
+	review String,
+    date ZonedDateTime
+}
 
+entity UniqueStoreID{
+}
 
 relationship OneToOne{
     Store{propreitor} to Propreitor,
 	Store{storeAddress} to StoreAddress,
-	Store{storeSettings} to StoreSettings
+	Store{storeSettings} to StoreSettings,
+	Store{preOrderSettings} to PreOrderSettings
 }
 
 
@@ -89,7 +110,9 @@ relationship OneToMany{
     Store{review} to Review,
     Store{userRating} to UserRating,
 	Store{banner} to Banner,
-	Store{deliveryInfo} to DeliveryInfo
+	Store{deliveryInfo} to DeliveryInfo,
+	Store{userRatingReview} to UserRatingReview
+	
 }
 
 relationship ManyToOne{

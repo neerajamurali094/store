@@ -33,7 +33,7 @@ public class ImageService {
 
 
 	@SuppressWarnings("deprecation")
-	public String saveFile(String type, Long entityId, byte[] data) {
+	public String saveFile(String type, String entityId, byte[] data) {
 		InputStream streamData = new ByteArrayInputStream(data);
 		String bucket = null;
 		String imageName = null; 
@@ -41,7 +41,7 @@ public class ImageService {
 		if (type.equals("store")) {
 			bucket = storeBucketName;
 			imageName = entityId+"-store-image.png";
-			imageLink = imageLink.concat("/"+bucket).concat("/"+imageLink);
+			imageLink = url+"/"+bucket+"/"+imageName;
 			log.info("Saving the store Image in bucket "+bucket+" imagename is "+imageName+" image link is "+imageLink);
 		} else if (type.equals("banner")) {
 			bucket = bannerBucketName;

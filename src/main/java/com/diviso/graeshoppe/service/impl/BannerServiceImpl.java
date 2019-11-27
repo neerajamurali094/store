@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -54,9 +55,10 @@ public class BannerServiceImpl implements BannerService {
     public BannerDTO save(BannerDTO bannerDTO) {
         log.debug("Request to save Banner : {}", bannerDTO);
         Banner banner = bannerMapper.toEntity(bannerDTO);
-		String imageLink = imageService.saveFile("banner", banner.getId(), bannerDTO.getFile());
+		String imageLink = imageService.saveFile("banner", UUID.randomUUID().toString(), bannerDTO.getFile());
 		banner.setImageLink(imageLink);
- 
+		banner.setFile(null);
+		banner.setFileContentType(null);
         banner = bannerRepository.save(banner);
         BannerDTO result = bannerMapper.toDto(banner);
         bannerSearchRepository.save(banner);

@@ -9,7 +9,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity PreOrderSettings and its DTO PreOrderSettingsDTO.
  */
-@Mapper(componentModel = "spring", uses = {StoreMapper.class})
+@Mapper(componentModel = "spring", uses = {})
 public interface PreOrderSettingsMapper extends EntityMapper<PreOrderSettingsDTO, PreOrderSettings> {
 
     @Mapping(source = "store.id", target = "storeId")

@@ -72,10 +72,14 @@ public class StoreServiceImpl implements StoreService {
 	public StoreDTO update(StoreDTO storeDTO) {
 		log.debug("Request to save Store : {}", storeDTO);
 		Store store = storeMapper.toEntity(storeDTO);
+		
+		if(store.getImage()==null) 
+		{
 		String imageLink  = imageService.saveFile("store", UUID.randomUUID().toString(), storeDTO.getImage());
 		store.setImageLink(imageLink);
 		store.setImage(null);
 		store.setImageContentType(null);
+		}
 		store = storeRepository.save(store);
 		StoreDTO result = storeMapper.toDto(store);
 		storeSearchRepository.save(store);

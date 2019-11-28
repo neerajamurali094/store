@@ -55,10 +55,14 @@ public class BannerServiceImpl implements BannerService {
     public BannerDTO save(BannerDTO bannerDTO) {
         log.debug("Request to save Banner : {}", bannerDTO);
         Banner banner = bannerMapper.toEntity(bannerDTO);
-		String imageLink = imageService.saveFile("banner", UUID.randomUUID().toString(), bannerDTO.getFile());
+		if(banner.getFile()!=null) 
+		{
+        
+        String imageLink = imageService.saveFile("banner", UUID.randomUUID().toString(), bannerDTO.getFile());
 		banner.setImageLink(imageLink);
 		banner.setFile(null);
 		banner.setFileContentType(null);
+		}
         banner = bannerRepository.save(banner);
         BannerDTO result = bannerMapper.toDto(banner);
         bannerSearchRepository.save(banner);

@@ -145,14 +145,6 @@ public class PreOrderSettingsResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
     
-    @PostMapping("/pre-order-settings/toDto")
-	public ResponseEntity<List<PreOrderSettingsDTO>> listToDto(@RequestBody List<PreOrderSettings> preOrderSettings) {
-		log.debug("REST request to convert to DTO");
-		List<PreOrderSettingsDTO> dtos = new ArrayList<>();
-		preOrderSettings.forEach(a -> {
-			dtos.add(preOrderSettingsMapper.toDto(a));
-		});
-		return ResponseEntity.ok().body(dtos);
-	}
+
 
 }

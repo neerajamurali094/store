@@ -12,10 +12,9 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {})
 public interface PreOrderSettingsMapper extends EntityMapper<PreOrderSettingsDTO, PreOrderSettings> {
 
-    @Mapping(source = "store.id", target = "storeId")
     PreOrderSettingsDTO toDto(PreOrderSettings preOrderSettings);
 
-    @Mapping(source = "storeId", target = "store")
+
     PreOrderSettings toEntity(PreOrderSettingsDTO preOrderSettingsDTO);
 
     default PreOrderSettings fromId(Long id) {

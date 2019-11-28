@@ -1,12 +1,18 @@
 package com.diviso.graeshoppe.web.rest;
+import com.diviso.graeshoppe.domain.PreOrderSettings;
+import com.diviso.graeshoppe.domain.StoreType;
 import com.diviso.graeshoppe.service.PreOrderSettingsService;
 import com.diviso.graeshoppe.web.rest.errors.BadRequestAlertException;
 import com.diviso.graeshoppe.web.rest.util.HeaderUtil;
 import com.diviso.graeshoppe.web.rest.util.PaginationUtil;
 import com.diviso.graeshoppe.service.dto.PreOrderSettingsDTO;
+import com.diviso.graeshoppe.service.dto.StoreTypeDTO;
+import com.diviso.graeshoppe.service.mapper.PreOrderSettingsMapper;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -35,6 +41,9 @@ public class PreOrderSettingsResource {
     private static final String ENTITY_NAME = "storePreOrderSettings";
 
     private final PreOrderSettingsService preOrderSettingsService;
+    
+    @Autowired
+    private PreOrderSettingsMapper preOrderSettingsMapper;
 
     public PreOrderSettingsResource(PreOrderSettingsService preOrderSettingsService) {
         this.preOrderSettingsService = preOrderSettingsService;
@@ -135,5 +144,15 @@ public class PreOrderSettingsResource {
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/pre-order-settings");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+    
+    @PostMapping("/pre-order-settings/toDto")
+	public ResponseEntity<List<PreOrderSettingsDTO>> listToDto(@RequestBody List<PreOrderSettings> preOrderSettings) {
+		log.debug("REST request to convert to DTO");
+		List<PreOrderSettingsDTO> dtos = new ArrayList<>();
+		preOrderSettings.forEach(a -> {
+			dtos.add(preOrderSettingsMapper.toDto(a));
+		});
+		return ResponseEntity.ok().body(dtos);
+	}
 
 }

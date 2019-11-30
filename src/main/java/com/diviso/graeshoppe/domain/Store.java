@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.GeoPointField;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
@@ -43,6 +45,7 @@ public class Store implements Serializable {
     @Column(name = "total_rating")
     private Double totalRating;
 
+    @GeoPointField
     @Column(name = "location")
     private String location;
 

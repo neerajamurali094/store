@@ -1,6 +1,9 @@
 package com.diviso.graeshoppe.service.dto;
 import java.time.Instant;
 import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.GeoPointField;
+
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Lob;
@@ -22,6 +25,7 @@ public class StoreDTO implements Serializable {
     private String imageContentType;
     private Double totalRating;
 
+    @GeoPointField
     private String location;
 
     private String locationName;

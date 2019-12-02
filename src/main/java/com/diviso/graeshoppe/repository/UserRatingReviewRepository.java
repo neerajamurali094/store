@@ -12,4 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRatingReviewRepository extends JpaRepository<UserRatingReview, Long> {
 
+	boolean existsByStoreIdAndUserName(Long storeId, String userName);
+
+	UserRatingReview findByStoreIdAndUserName(Long storeId, String userName);
+
 }

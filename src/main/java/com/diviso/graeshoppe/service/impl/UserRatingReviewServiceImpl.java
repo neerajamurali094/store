@@ -109,4 +109,14 @@ public class UserRatingReviewServiceImpl implements UserRatingReviewService {
         return userRatingReviewSearchRepository.search(queryStringQuery(query), pageable)
             .map(userRatingReviewMapper::toDto);
     }
+
+	@Override
+	public boolean isAlreadyRatedUser(Long storeId, String userName) {
+		 return userRatingReviewRepository.existsByStoreIdAndUserName(storeId, userName);
+	}
+
+	@Override
+	public Long findUserRatingReviwIdByStoreIdAndUserName(Long storeId, String userName) {
+		 return userRatingReviewRepository.findByStoreIdAndUserName(storeId, userName).getId();
+	}
 }

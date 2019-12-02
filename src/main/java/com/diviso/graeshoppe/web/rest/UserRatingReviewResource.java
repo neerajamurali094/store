@@ -1,4 +1,5 @@
 package com.diviso.graeshoppe.web.rest;
+import com.diviso.graeshoppe.repository.UserRatingReviewRepository;
 import com.diviso.graeshoppe.service.UserRatingReviewService;
 import com.diviso.graeshoppe.web.rest.errors.BadRequestAlertException;
 import com.diviso.graeshoppe.web.rest.util.HeaderUtil;
@@ -7,6 +8,7 @@ import com.diviso.graeshoppe.service.dto.UserRatingReviewDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -47,16 +49,29 @@ public class UserRatingReviewResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new userRatingReviewDTO, or with status 400 (Bad Request) if the userRatingReview has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    
+   /* @GetMapping("/user")
+    public Boolean get(@RequestBody UserRatingReviewDTO userRatingReviewDTO) {
+    	return userRatingReviewService.existsByStoreIdAndUserName(userRatingReviewDTO.getStoreId(), userRatingReviewDTO.getUserName());
+    }*/
+    
+    
     @PostMapping("/user-rating-reviews")
     public ResponseEntity<UserRatingReviewDTO> createUserRatingReview(@RequestBody UserRatingReviewDTO userRatingReviewDTO) throws URISyntaxException {
         log.debug("REST request to save UserRatingReview : {}", userRatingReviewDTO);
         if (userRatingReviewDTO.getId() != null) {
             throw new BadRequestAlertException("A new userRatingReview cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if(userRatingReviewService.isAlreadyRatedUser(userRatingReviewDTO.getStoreId(), userRatingReviewDTO.getUserName())==false) {
         UserRatingReviewDTO result = userRatingReviewService.save(userRatingReviewDTO);
         return ResponseEntity.created(new URI("/api/user-rating-reviews/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
+        }
+        else {
+        return	updateUserRatingReview(userRatingReviewDTO);
+        }
+       
     }
 
     /**
@@ -71,6 +86,8 @@ public class UserRatingReviewResource {
     @PutMapping("/user-rating-reviews")
     public ResponseEntity<UserRatingReviewDTO> updateUserRatingReview(@RequestBody UserRatingReviewDTO userRatingReviewDTO) throws URISyntaxException {
         log.debug("REST request to update UserRatingReview : {}", userRatingReviewDTO);
+        userRatingReviewDTO.setId(userRatingReviewService.findUserRatingReviwIdByStoreIdAndUserName(userRatingReviewDTO.getStoreId(), userRatingReviewDTO.getUserName()));
+        
         if (userRatingReviewDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }

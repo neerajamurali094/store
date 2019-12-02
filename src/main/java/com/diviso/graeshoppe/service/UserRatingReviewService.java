@@ -1,5 +1,6 @@
 package com.diviso.graeshoppe.service;
 
+import com.diviso.graeshoppe.domain.UserRatingReview;
 import com.diviso.graeshoppe.service.dto.UserRatingReviewDTO;
 
 import org.springframework.data.domain.Page;
@@ -53,4 +54,7 @@ public interface UserRatingReviewService {
      * @return the list of entities
      */
     Page<UserRatingReviewDTO> search(String query, Pageable pageable);
+    boolean isAlreadyRatedUser(Long storeId, String userName);
+
+	Long findUserRatingReviwIdByStoreIdAndUserName(Long storeId, String userName);
 }

@@ -1,6 +1,7 @@
 package com.diviso.graeshoppe.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -8,6 +9,8 @@ import javax.persistence.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -40,6 +43,8 @@ public class UserRatingReview implements Serializable {
     @JsonIgnoreProperties("userRatingReviews")
     private Store store;
 
+    @OneToMany(mappedBy = "userRatingReview")
+    private Set<Reply> replies = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -112,6 +117,31 @@ public class UserRatingReview implements Serializable {
 
     public void setStore(Store store) {
         this.store = store;
+    }
+
+    public Set<Reply> getReplies() {
+        return replies;
+    }
+
+    public UserRatingReview replies(Set<Reply> replies) {
+        this.replies = replies;
+        return this;
+    }
+
+    public UserRatingReview addReply(Reply reply) {
+        this.replies.add(reply);
+        reply.setUserRatingReview(this);
+        return this;
+    }
+
+    public UserRatingReview removeReply(Reply reply) {
+        this.replies.remove(reply);
+        reply.setUserRatingReview(null);
+        return this;
+    }
+
+    public void setReplies(Set<Reply> replies) {
+        this.replies = replies;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

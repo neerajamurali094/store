@@ -19,6 +19,8 @@ public class ReplyDTO implements Serializable {
 
     private Long reviewId;
 
+    private Long userRatingReviewId;
+
     public Long getId() {
         return id;
     }
@@ -59,6 +61,14 @@ public class ReplyDTO implements Serializable {
         this.reviewId = reviewId;
     }
 
+    public Long getUserRatingReviewId() {
+        return userRatingReviewId;
+    }
+
+    public void setUserRatingReviewId(Long userRatingReviewId) {
+        this.userRatingReviewId = userRatingReviewId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -88,6 +98,7 @@ public class ReplyDTO implements Serializable {
             ", reply='" + getReply() + "'" +
             ", repliedDate='" + getRepliedDate() + "'" +
             ", review=" + getReviewId() +
+            ", userRatingReview=" + getUserRatingReviewId() +
             "}";
     }
 }

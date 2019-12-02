@@ -37,6 +37,10 @@ public class Reply implements Serializable {
     @JsonIgnoreProperties("replies")
     private Review review;
 
+    @ManyToOne
+    @JsonIgnoreProperties("replies")
+    private UserRatingReview userRatingReview;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -96,6 +100,19 @@ public class Reply implements Serializable {
 
     public void setReview(Review review) {
         this.review = review;
+    }
+
+    public UserRatingReview getUserRatingReview() {
+        return userRatingReview;
+    }
+
+    public Reply userRatingReview(UserRatingReview userRatingReview) {
+        this.userRatingReview = userRatingReview;
+        return this;
+    }
+
+    public void setUserRatingReview(UserRatingReview userRatingReview) {
+        this.userRatingReview = userRatingReview;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -15,6 +15,7 @@ public interface UserRatingReviewMapper extends EntityMapper<UserRatingReviewDTO
     UserRatingReviewDTO toDto(UserRatingReview userRatingReview);
 
     @Mapping(source = "storeId", target = "store")
+    @Mapping(target = "replies", ignore = true)
     UserRatingReview toEntity(UserRatingReviewDTO userRatingReviewDTO);
 
     default UserRatingReview fromId(Long id) {

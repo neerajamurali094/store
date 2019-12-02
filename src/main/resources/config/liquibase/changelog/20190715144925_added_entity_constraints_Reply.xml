@@ -14,5 +14,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="review"/>
 
+        <addForeignKeyConstraint baseColumnNames="user_rating_review_id"
+                                 baseTableName="reply"
+                                 constraintName="fk_reply_user_rating_review_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_rating_review"/>
+
     </changeSet>
 </databaseChangeLog>

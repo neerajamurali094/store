@@ -111,8 +111,8 @@ relationship OneToMany{
     Store{userRating} to UserRating,
 	Store{banner} to Banner,
 	Store{deliveryInfo} to DeliveryInfo,
-	Store{userRatingReview} to UserRatingReview
-	
+	Store{userRatingReview} to UserRatingReview,
+	 UserRatingReview{reply} to Reply
 }
 
 relationship ManyToOne{

@@ -47,12 +47,18 @@ public class UserRatingReviewServiceImpl implements UserRatingReviewService {
      */
     @Override
     public UserRatingReviewDTO save(UserRatingReviewDTO userRatingReviewDTO) {
-        log.debug("Request to save UserRatingReview : {}", userRatingReviewDTO);
-        UserRatingReview userRatingReview = userRatingReviewMapper.toEntity(userRatingReviewDTO);
-        userRatingReview = userRatingReviewRepository.save(userRatingReview);
-        UserRatingReviewDTO result = userRatingReviewMapper.toDto(userRatingReview);
-        userRatingReviewSearchRepository.save(userRatingReview);
-        return result;
+    	 log.debug("Request to save UserRatingReview : {}", userRatingReviewDTO);
+         UserRatingReview userRatingReview = userRatingReviewMapper.toEntity(userRatingReviewDTO);
+         userRatingReview = userRatingReviewRepository.save(userRatingReview);
+         UserRatingReviewDTO result1 = userRatingReviewMapper.toDto(userRatingReview);
+         userRatingReviewSearchRepository.save(userRatingReview);
+        
+         userRatingReview = userRatingReviewMapper.toEntity(result1);
+         userRatingReview = userRatingReviewRepository.save(userRatingReview);
+        
+          UserRatingReviewDTO result= userRatingReviewMapper.toDto(userRatingReview);
+         userRatingReviewSearchRepository.save(userRatingReview);
+         return result;
     }
 
     /**

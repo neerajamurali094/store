@@ -46,7 +46,7 @@ public class ImageService {
 		} else if (type.equals("banner")) {
 			bucket = bannerBucketName;
 			imageName = entityId+"-banner-image.png";
-			imageLink = imageLink.concat("/"+bucket).concat("/"+imageLink);
+			imageLink = url+"/"+bucket+"/"+imageName;
 			log.info("Saving the banner Image in bucket "+bucket+" imagename is "+imageName+"  image link is "+imageLink);
 		}
 		try {

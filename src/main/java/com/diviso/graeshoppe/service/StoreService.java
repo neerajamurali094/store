@@ -64,4 +64,6 @@ public interface StoreService {
 	Store findByRegNo(String regNo);
 
 	StoreDTO update(StoreDTO storeDTO);
+	
+	boolean isRegisteredStore(String regNo);
 }

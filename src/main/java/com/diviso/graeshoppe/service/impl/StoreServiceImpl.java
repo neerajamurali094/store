@@ -175,4 +175,10 @@ public class StoreServiceImpl implements StoreService {
 		log.debug("Request to get Store : {}", regNo);
 		return storeRepository.findByRegNo(regNo);
 	}
+
+
+	public boolean isRegisteredStore(String regNo) {
+		return storeRepository.existsByRegNo(regNo);
+	}
+
 }

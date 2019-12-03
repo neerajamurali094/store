@@ -79,16 +79,25 @@ public class StoreResource {
 		if (storeDTO.getId() != null) {
 			throw new BadRequestAlertException("A new store cannot already have an ID", ENTITY_NAME, "idexists");
 		}
-		List<Store> stores = storeRepo.findAll();
+		//List<Store> stores = storeRepo.findAll();
 
-		stores.forEach(s -> {
+	/*	stores.forEach(s -> {
 			if (storeDTO.getRegNo().equals(s.getRegNo())) {
 
-				throw new BadRequestAlertException("Already have a customer with the same name", ENTITY_NAME,
+				throw new BadRequestAlertException("Already have a Store with the same name", ENTITY_NAME,
 						"nameexists");
 			}
 
-		});
+		});*/
+		
+		if(storeService.isRegisteredStore(storeDTO.getRegNo())==true) {
+			throw new BadRequestAlertException("Already have a Store with the same name", ENTITY_NAME,
+					"nameexists");
+		}
+		if( storeDTO.getMinAmount()==null) {
+			storeDTO.setMinAmount(0.0);
+		}
+		
 
 		StoreSettingsDTO storeSettings = new StoreSettingsDTO();
 
@@ -216,24 +225,7 @@ public class StoreResource {
 		return ResponseEntity.ok().headers(headers).body(page.getContent());
 	}
 
-	// for testing purpose DeleteMe
-	@PostMapping("/createStores")
-	public void create() {
-		Store t1 = new Store();
-		t1.setId(367l);
-		t1.setName("grilchicken");
-		storeSearchRepository.save(t1);
-
-		Store t2 = new Store();
-		t2.setId(368l);
-		t2.setName("grilgchi[cken");
-		storeSearchRepository.save(t2);
-
-		Store t3 = new Store();
-		t3.setId(367l);
-		t3.setName("rrun'neschicken");
-		storeSearchRepository.save(t3);
-	}
+	
 
 	@GetMapping("/storesettings/{storeId}")
 	public StoreSettingsDTO findStoreSettingsByStoreId(@PathVariable String storeId){

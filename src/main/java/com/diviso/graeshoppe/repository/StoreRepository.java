@@ -20,4 +20,9 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 	public StoreSettings findStoreSettingsByStoreId(@Param("regNo")String regNo);
 	
 	public Store findByRegNo(String regNo);
+	
+	boolean existsByRegNo(String regNo);
+	
+	
+	
 }

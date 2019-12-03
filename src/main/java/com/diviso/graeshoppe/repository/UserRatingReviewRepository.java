@@ -17,7 +17,7 @@ public interface UserRatingReviewRepository extends JpaRepository<UserRatingRevi
 
 	UserRatingReview findByStoreIdAndUserName(Long storeId, String userName);
 	
-	@Query("SELECT COUNT(u) FROM UserRatingReviewRepository  u WHERE u.rating=:rating and u.store.id =:storeId")
+	@Query("SELECT COUNT(u) FROM UserRatingReview  u WHERE u.rating=:rating and u.store.id =:storeId")
 	public int getCount(@Param("rating")Double rating,@Param("storeId")Long storeId);
 
 }

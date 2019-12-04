@@ -60,16 +60,27 @@ public class UserRatingReviewServiceImpl implements UserRatingReviewService {
          userRatingReview = userRatingReviewRepository.save(userRatingReview);
          UserRatingReviewDTO result1 = userRatingReviewMapper.toDto(userRatingReview);
          userRatingReviewSearchRepository.save(userRatingReview);
+         updateToEs(result1);
          StoreDTO storeDTO = storeService.findOne(result1.getStoreId()).get();
           Double totalRating=  calculateTotalRating( result1.getStoreId());
-         StoreDTO dto = storeService.save(storeDTO);
-         userRatingReview = userRatingReviewMapper.toEntity(result1);
+          //System.out.println("          Double totalRating!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+ totalRating);
+          storeDTO.setTotalRating(totalRating);
+          StoreDTO dto = storeService.save(storeDTO);
+         //System.out.println("StoreDTO?????????????????????????????????????????????????????"+dto);
+         return  updateToEs(result1);
+    }
+    private UserRatingReviewDTO updateToEs(UserRatingReviewDTO result1UserRatingReviewDTO) {
+    	UserRatingReview userRatingReview = userRatingReviewMapper.toEntity(result1UserRatingReviewDTO);
          userRatingReview = userRatingReviewRepository.save(userRatingReview);
         
           UserRatingReviewDTO result= userRatingReviewMapper.toDto(userRatingReview);
          userRatingReviewSearchRepository.save(userRatingReview);
          return result;
     }
+    
+    
+    
+    
 
     /**
      * Get all the userRatingReviews.

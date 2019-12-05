@@ -61,7 +61,7 @@ public class PropreitorServiceImpl implements PropreitorService {
         propreitor = propreitorRepository.save(propreitor);
         PropreitorDTO result= propreitorMapper.toDto(propreitor);
         propreitorSearchRepository.save(propreitor);
-        return updateToEs(result);
+        return result;
     }
 
     /**

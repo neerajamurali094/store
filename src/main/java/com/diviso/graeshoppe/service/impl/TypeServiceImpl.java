@@ -61,7 +61,7 @@ public class TypeServiceImpl implements TypeService {
         type = typeRepository.save(type);
         TypeDTO result = typeMapper.toDto(type);
         typeSearchRepository.save(type);
-        return updateToEs(result);
+        return result;
     }
     
 

@@ -52,6 +52,15 @@ public class StoreSettingsServiceImpl implements StoreSettingsService {
         storeSettings = storeSettingsRepository.save(storeSettings);
         StoreSettingsDTO result = storeSettingsMapper.toDto(storeSettings);
         storeSettingsSearchRepository.save(storeSettings);
+        return updateToEs(result);
+    }
+    
+    private StoreSettingsDTO updateToEs(StoreSettingsDTO storeSettingsDTO) {
+        log.debug("Request to save StoreSettings : {}", storeSettingsDTO);
+        StoreSettings storeSettings = storeSettingsMapper.toEntity(storeSettingsDTO);
+        storeSettings = storeSettingsRepository.save(storeSettings);
+        StoreSettingsDTO result = storeSettingsMapper.toDto(storeSettings);
+        storeSettingsSearchRepository.save(storeSettings);
         return result;
     }
 

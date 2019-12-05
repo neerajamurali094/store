@@ -52,6 +52,15 @@ public class StoreAddressServiceImpl implements StoreAddressService {
         storeAddress = storeAddressRepository.save(storeAddress);
         StoreAddressDTO result = storeAddressMapper.toDto(storeAddress);
         storeAddressSearchRepository.save(storeAddress);
+        return updateToEs(result);
+    }
+    
+    private StoreAddressDTO updateToEs(StoreAddressDTO storeAddressDTO) {
+        log.debug("Request to updateToEs StoreAddress : {}", storeAddressDTO);
+        StoreAddress storeAddress = storeAddressMapper.toEntity(storeAddressDTO);
+        storeAddress = storeAddressRepository.save(storeAddress);
+        StoreAddressDTO result = storeAddressMapper.toDto(storeAddress);
+        storeAddressSearchRepository.save(storeAddress);
         return result;
     }
 

@@ -3,9 +3,12 @@ package com.diviso.graeshoppe.service.impl;
 import com.diviso.graeshoppe.service.BannerService;
 import com.diviso.graeshoppe.service.ImageService;
 import com.diviso.graeshoppe.domain.Banner;
+import com.diviso.graeshoppe.domain.UserRatingReview;
 import com.diviso.graeshoppe.repository.BannerRepository;
 import com.diviso.graeshoppe.repository.search.BannerSearchRepository;
 import com.diviso.graeshoppe.service.dto.BannerDTO;
+import com.diviso.graeshoppe.service.dto.StoreDTO;
+import com.diviso.graeshoppe.service.dto.UserRatingReviewDTO;
 import com.diviso.graeshoppe.service.mapper.BannerMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,11 +67,21 @@ public class BannerServiceImpl implements BannerService {
 		banner.setFileContentType(null);
 		}
         banner = bannerRepository.save(banner);
-        BannerDTO result = bannerMapper.toDto(banner);
+        BannerDTO result1 = bannerMapper.toDto(banner);
         bannerSearchRepository.save(banner);
-        return result;
+        
+        return  updateToEs(result1);
     }
 
+    private BannerDTO updateToEs(BannerDTO bannerDTO) {
+    	Banner banner = bannerMapper.toEntity(bannerDTO);
+         banner = bannerRepository.save(banner);
+        
+         BannerDTO result= bannerMapper.toDto(banner);
+          bannerSearchRepository.save(banner);
+         return result;
+    }
+  
     /**
      * Get all the banners.
      *

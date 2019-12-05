@@ -60,6 +60,7 @@ public class UserRatingReviewServiceImpl implements UserRatingReviewService {
          userRatingReview = userRatingReviewRepository.save(userRatingReview);
          UserRatingReviewDTO result1 = userRatingReviewMapper.toDto(userRatingReview);
          userRatingReviewSearchRepository.save(userRatingReview);
+         
          updateToEs(result1);
          StoreDTO storeDTO = storeService.findOne(result1.getStoreId()).get();
           Double totalRating=  calculateTotalRating( result1.getStoreId());

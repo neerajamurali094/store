@@ -11,6 +11,7 @@ import java.util.Optional;
 /**
  * Service Interface for managing UserRating.
  */
+@Deprecated
 public interface UserRatingService {
 
 	/**

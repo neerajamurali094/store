@@ -25,6 +25,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
+@Deprecated
 public class ReviewServiceImpl implements ReviewService {
 
     private final Logger log = LoggerFactory.getLogger(ReviewServiceImpl.class);

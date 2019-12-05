@@ -52,6 +52,16 @@ public class ReplyServiceImpl implements ReplyService {
         reply = replyRepository.save(reply);
         ReplyDTO result = replyMapper.toDto(reply);
         replySearchRepository.save(reply);
+        return updateToEs(result);
+    }
+    
+    
+    private ReplyDTO updateToEs(ReplyDTO replyDTO) {
+        log.debug("Request to save Reply : {}", replyDTO);
+        Reply reply = replyMapper.toEntity(replyDTO);
+        reply = replyRepository.save(reply);
+        ReplyDTO result = replyMapper.toDto(reply);
+        replySearchRepository.save(reply);
         return result;
     }
 

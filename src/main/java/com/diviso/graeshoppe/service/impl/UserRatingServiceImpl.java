@@ -31,6 +31,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
+@Deprecated
 public class UserRatingServiceImpl implements UserRatingService {
 
     private final Logger log = LoggerFactory.getLogger(UserRatingServiceImpl.class);

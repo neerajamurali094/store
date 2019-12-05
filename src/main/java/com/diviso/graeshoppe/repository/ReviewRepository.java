@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
+@Deprecated
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
 }

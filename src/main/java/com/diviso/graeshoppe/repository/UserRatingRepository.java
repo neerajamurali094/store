@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
+@Deprecated
 public interface UserRatingRepository extends JpaRepository<UserRating, Long> {
 
 	@Query("SELECT COUNT(u) FROM UserRating u WHERE u.rating=:rating")

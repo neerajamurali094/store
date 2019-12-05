@@ -1,9 +1,11 @@
 package com.diviso.graeshoppe.service.impl;
 
 import com.diviso.graeshoppe.service.DeliveryInfoService;
+import com.diviso.graeshoppe.domain.Banner;
 import com.diviso.graeshoppe.domain.DeliveryInfo;
 import com.diviso.graeshoppe.repository.DeliveryInfoRepository;
 import com.diviso.graeshoppe.repository.search.DeliveryInfoSearchRepository;
+import com.diviso.graeshoppe.service.dto.BannerDTO;
 import com.diviso.graeshoppe.service.dto.DeliveryInfoDTO;
 import com.diviso.graeshoppe.service.mapper.DeliveryInfoMapper;
 import org.slf4j.Logger;
@@ -50,9 +52,18 @@ public class DeliveryInfoServiceImpl implements DeliveryInfoService {
         log.debug("Request to save DeliveryInfo : {}", deliveryInfoDTO);
         DeliveryInfo deliveryInfo = deliveryInfoMapper.toEntity(deliveryInfoDTO);
         deliveryInfo = deliveryInfoRepository.save(deliveryInfo);
-        DeliveryInfoDTO result = deliveryInfoMapper.toDto(deliveryInfo);
+        DeliveryInfoDTO result1 = deliveryInfoMapper.toDto(deliveryInfo);
         deliveryInfoSearchRepository.save(deliveryInfo);
-        return result;
+        return  updateToEs(result1);
+    }
+
+    private DeliveryInfoDTO updateToEs(DeliveryInfoDTO deliveryInfoDTO) {
+    	DeliveryInfo deliveryInfo = deliveryInfoMapper.toEntity(deliveryInfoDTO);
+    	deliveryInfo = deliveryInfoRepository.save(deliveryInfo);
+        
+         DeliveryInfoDTO result= deliveryInfoMapper.toDto(deliveryInfo);
+         deliveryInfoSearchRepository.save(deliveryInfo);
+         return result;
     }
 
     /**

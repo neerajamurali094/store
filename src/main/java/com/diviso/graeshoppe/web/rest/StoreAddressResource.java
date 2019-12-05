@@ -54,11 +54,8 @@ public class StoreAddressResource {
         if (storeAddressDTO.getId() != null) {
             throw new BadRequestAlertException("A new storeAddress cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        StoreAddressDTO result1 = storeAddressService.save(storeAddressDTO);
-		if (result1.getId() == null) {
-			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-		}
-		StoreAddressDTO result = storeAddressService.save(result1);
+        StoreAddressDTO result = storeAddressService.save(storeAddressDTO);
+
         return ResponseEntity.created(new URI("/api/store-addresses/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

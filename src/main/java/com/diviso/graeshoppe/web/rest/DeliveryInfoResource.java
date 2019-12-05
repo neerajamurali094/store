@@ -64,11 +64,8 @@ public class DeliveryInfoResource {
 		if (deliveryInfoDTO.getId() != null) {
 			throw new BadRequestAlertException("A new deliveryInfo cannot already have an ID", ENTITY_NAME, "idexists");
 		}
-		DeliveryInfoDTO result1 = deliveryInfoService.save(deliveryInfoDTO);
-		if (result1.getId() == null) {
-			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-		}
-		DeliveryInfoDTO result = deliveryInfoService.save(result1);
+		DeliveryInfoDTO result = deliveryInfoService.save(deliveryInfoDTO);
+
 		return ResponseEntity.created(new URI("/api/delivery-infos/" + result.getId()))
 				.headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString())).body(result);
 	}

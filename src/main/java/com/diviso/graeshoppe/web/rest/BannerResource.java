@@ -63,11 +63,8 @@ public class BannerResource {
         if (bannerDTO.getId() != null) {
             throw new BadRequestAlertException("A new banner cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        BannerDTO result1 = bannerService.save(bannerDTO);
-		if (result1.getId() == null) {
-			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-		}
-		BannerDTO result = bannerService.save(result1);
+        BannerDTO result = bannerService.save(bannerDTO);
+
         return ResponseEntity.created(new URI("/api/banners/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

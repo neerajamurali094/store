@@ -54,11 +54,8 @@ public class StoreSettingsResource {
         if (storeSettingsDTO.getId() != null) {
             throw new BadRequestAlertException("A new storeSettings cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        StoreSettingsDTO result1 = storeSettingsService.save(storeSettingsDTO);
-		if (result1.getId() == null) {
-			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-		}
-		StoreSettingsDTO result = storeSettingsService.save(result1);
+        StoreSettingsDTO result= storeSettingsService.save(storeSettingsDTO);
+
         return ResponseEntity.created(new URI("/api/store-settings/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

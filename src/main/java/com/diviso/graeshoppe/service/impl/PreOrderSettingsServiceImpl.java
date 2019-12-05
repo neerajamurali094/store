@@ -1,9 +1,11 @@
 package com.diviso.graeshoppe.service.impl;
 
 import com.diviso.graeshoppe.service.PreOrderSettingsService;
+import com.diviso.graeshoppe.domain.DeliveryInfo;
 import com.diviso.graeshoppe.domain.PreOrderSettings;
 import com.diviso.graeshoppe.repository.PreOrderSettingsRepository;
 import com.diviso.graeshoppe.repository.search.PreOrderSettingsSearchRepository;
+import com.diviso.graeshoppe.service.dto.DeliveryInfoDTO;
 import com.diviso.graeshoppe.service.dto.PreOrderSettingsDTO;
 import com.diviso.graeshoppe.service.mapper.PreOrderSettingsMapper;
 import org.slf4j.Logger;
@@ -50,9 +52,18 @@ public class PreOrderSettingsServiceImpl implements PreOrderSettingsService {
         log.debug("Request to save PreOrderSettings : {}", preOrderSettingsDTO);
         PreOrderSettings preOrderSettings = preOrderSettingsMapper.toEntity(preOrderSettingsDTO);
         preOrderSettings = preOrderSettingsRepository.save(preOrderSettings);
+        PreOrderSettingsDTO result1 = preOrderSettingsMapper.toDto(preOrderSettings);
+        preOrderSettingsSearchRepository.save(preOrderSettings);
+        return  updateToEs(result1);
+    }
+
+    private PreOrderSettingsDTO updateToEs(PreOrderSettingsDTO preOrderSettingsDTO) {
+        PreOrderSettings preOrderSettings = preOrderSettingsMapper.toEntity(preOrderSettingsDTO);
+        preOrderSettings = preOrderSettingsRepository.save(preOrderSettings);
         PreOrderSettingsDTO result = preOrderSettingsMapper.toDto(preOrderSettings);
         preOrderSettingsSearchRepository.save(preOrderSettings);
         return result;
+
     }
 
     /**
